@@ -56,12 +56,12 @@ public class DBManagerTerminal{
                         //ResultSet rs = db.statement.executeQuery("SELECT id, setdate, title FROM RECORD ORDER BY setdate DESC");
                         ArrayList<Pair<Integer, String>> resultList = new ArrayList<Pair<Integer, String>>();
                         ArrayList<String> dates = new ArrayList<String>();
-                        HashMap<String, String> a = new HashMap<String, String>();
-                        boolean[] b = {true, false, true, false, true, false};
-                        ArrayList<ArrayList<String>> rs = db.searchRecord(a, new ArrayList<String>(), b, 0, new ArrayList<Pair<String, Boolean>>());
-                        for (ArrayList<String> d : rs){
-                            dates.add(d.get(4));
-                            resultList.add(new Pair<Integer, String>(Integer.parseInt(d.get(0)), d.get(2)));
+                        //HashMap<String, String> a = new HashMap<String, String>();
+                        //ArrayList<String> b = new ArrayList<String>(Arrays.asList("id", "title", "setDate"));
+                        ArrayList<HashMap<String, String>> rs = db.listRecord();
+                        for (HashMap<String, String> d : rs){
+                            dates.add(d.get("setTime"));
+                            resultList.add(new Pair<Integer, String>(Integer.parseInt(d.get("id")), d.get("title")));
                         }
                         int pageNumber = (rs.size()+4)/5, currentPage = 1;
                         while (true){
@@ -175,10 +175,12 @@ public class DBManagerTerminal{
                             tagsToPass.add(tag);
                         }
                         System.out.println("input the return request");
-                        String[] ifReturnStr = scanner.nextLine().split(" ");
-                        boolean[] ifReturn = {false,false,false,false,false,false};
-                        for (int k = 0;k<DiaryManager.RECORD_COLUMN_COUNT;k++){
-                            ifReturn[k] = (ifReturnStr[k].equals("1")) ? true : false;
+                        ArrayList<String> request = new ArrayList<>();
+                        while (true){
+                            String r = scanner.nextLine();
+                            if (r.equals(""))
+                                break;
+                            request.add(r);
                         }
                         System.out.println("input return limit");
                         int limit = Integer.parseInt(scanner.nextLine());
@@ -191,12 +193,10 @@ public class DBManagerTerminal{
                             String[] conditionSplit = condition.split(" ");
                             order.add(new Pair<String, Boolean>(conditionSplit[0], conditionSplit[1].equals("1") ? true : false));
                         }
-                        ArrayList<ArrayList<String>> results = db.searchRecord(conditionSet, tagsToPass, ifReturn, limit, order);
-                        for (ArrayList<String> result : results){
-                            for (int i = 0;i<result.size();i++){
-                                if (result.get(i) != null){
-                                    System.out.print(String.format(" %s", result.get(i)));
-                                }
+                        ArrayList<HashMap<String, String>> results = db.searchRecord(conditionSet, tagsToPass, request, limit, order);
+                        for (HashMap<String, String> result : results){
+                            for (Map.Entry<String, String> i : result.entrySet()){
+                                System.out.print(String.format(" %s", i.getValue()));
                             }
                             System.out.print("\n");
                         }

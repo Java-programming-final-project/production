@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    </head>
+    <body>
+        <span>save diary form</span>
+        <form target="_self" method="post" action="http://127.0.0.1:5000/saveDiary">
+            <input type="text" name="title" id="title"/>
+            <input type="text" name="content" id="content"/>
+            <input type="submit" value="submit"/>
+        </form>
+        <span>get record content</span>
+        <form target="_self" method="get" action="http://127.0.0.1:5000/getRecordContent">
+            <input type="text" name="id"/>
+            <input type="submit" value="submit"/>
+        </form>
+        <span>get record all</span>
+        <form target="_self" method="get" action="http://127.0.0.1:5000/getRecordAll">
+            <input type="text" name="id"/>
+            <input type="submit" value="submit"/>
+        </form>
+        <span>get record custom</span>
+        <form target="_self" method="post" action="http://127.0.0.1:5000/getRecordCustom">
+            <input type="text" name="recordId" id="recordId"/>
+            <input type="checkbox" value = "id" name="query"/>
+            <input type="checkbox" value = "type" name="query"/>
+            <input type="checkbox" value = "title" name="query"/>
+            <input type="checkbox" value = "content" name="query"/>
+            <input type="checkbox" value = "setDate" name="query"/>
+            <input type="checkbox" value = "endDate" name="query"/>
+            <input type="submit" value="submit"/>
+        </form>
+        <span>set setting form</span>
+        <form target="_self" method="post" action="http://127.0.0.1:5000/setSetting">
+            <input type="text" name="setting" id="setting"/>
+            <input type="text" name="value" id="value"/>
+            <input type="submit" value="submit"/>
+        </form>
+        <!--<span>save diary form</span>
+        <form method="post" action="http://127.0.0.1:5000/saveDiary">
+            <input type="text" name="title" id="title"/>
+            <input type="text" name="content" id="content"/>
+            <input type="submit" value="submit"/>
+        </form>
+        <span>save diary form</span>
+        <form method="post" action="http://127.0.0.1:5000/saveDiary">
+            <input type="text" name="title" id="title"/>
+            <input type="text" name="content" id="content"/>
+            <input type="submit" value="submit"/>-->
+        </form>
+    </body>
+</html>

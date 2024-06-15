@@ -103,7 +103,7 @@ public class DiaryManager{
             ResultSet rs = this.statement.executeQuery("SELECT MAX(id) FROM RECORD");
             rs.next();
             int newID = rs.getInt(1)+1;
-            System.out.println(String.format("insert into RECORD values(%d, 0, '%s', '%s', DATE(), NULL)", newID, title.replaceAll("'", "''"), diary_text.replaceAll("'", "''")));
+            //System.out.println(String.format("insert into RECORD values(%d, 0, '%s', '%s', DATE(), NULL)", newID, title.replaceAll("'", "''"), diary_text.replaceAll("'", "''")));
             this.statement.executeUpdate(String.format("insert into RECORD values(%d, 0, '%s', '%s', DATE(), NULL)", newID, title.replaceAll("'", "''"), diary_text.replaceAll("'", "''")));
         }
         catch(Exception e){
@@ -139,24 +139,49 @@ public class DiaryManager{
             e.printStackTrace();
         }
     }
+    public ArrayList<HashMap<String, String>> listRecord(){
+        ArrayList<HashMap<String, String>> result = new ArrayList<HashMap<String, String>>();
+        try{
+            ResultSet rs = this.statement.executeQuery("SELECT id, title, setDate FROM RECORD");
+            HashMap<String, String> aresult;
+            while (rs.next()) {
+                aresult = new HashMap<String, String>();
+                aresult.put("id", rs.getString("id"));
+                aresult.put("title", rs.getString("title"));
+                aresult.put("setDate", rs.getString("setDate"));
+                result.add(aresult);
+            }
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+        return result;
+    }
     //if no input, it's not considered a filter
     //id, type, title(includes), content(includes), setBefore, setAfter, setDate, endBefore, endAfter, endDate, tag(AND logic)
     //use YYYY-MM-DD to input date
     //condition default ASC
     //the returned Arraylist always contain 6 values, but not requested indexes are NULL
     //I'll need to escape all special letters
-    public ArrayList<ArrayList<String>> searchRecord(HashMap<String, String> conditionSet, ArrayList<String> tags, boolean ifReturn[], int limit, ArrayList<Pair<String, Boolean>> conditionOrder){
-        ArrayList<ArrayList<String>> output = new ArrayList<ArrayList<String>>();
-        String search = "SELECT id";
-        //int returnColumnNumber = 0;
+    public ArrayList<HashMap<String, String>> searchRecord(HashMap<String, String> conditionSet, ArrayList<String> tags, ArrayList<String> request, int limit, ArrayList<Pair<String, Boolean>> conditionOrder){
+        ArrayList<HashMap<String, String>> output = new ArrayList<HashMap<String, String>>();
+        String search = "SELECT";
+        /*//int returnColumnNumber = 0;
         
         for (int i = 1, isFirst = 1;i<RECORD_COLUMN_COUNT;i++){
             if (ifReturn[i]){
                 search += String.format(", %s", RECORD_COLUMN[i]);
                 //returnColumnNumber++;
             }
+        }*/
+        for (int i = 0, isFirst = 1;i<request.size();i++){
+            if (isFirst == 1){
+                search += String.format(" %s", request.get(i));
+                isFirst = 0;
+                continue;
+            }
+            search += String.format(", %s", request.get(i));
         }
-        
         if (conditionSet.size() != 0){
             search += " FROM RECORD WHERE";
             int id = Integer.parseInt(conditionSet.getOrDefault("id", "-1"));
@@ -221,23 +246,26 @@ public class DiaryManager{
                 }
             }
 
-            System.out.println(String.format("search: %s", search));
+            //System.out.println(String.format("search: %s", search));
             ResultSet rs = this.statement.executeQuery(search);
             int resultCount = 0;
 
             while(rs.next()){
-                ArrayList<String> aResult;
+                HashMap<String, String> aResult;
                 //System.out.println(String.format("%d %s %d", rs.getInt("id"), rs.getString("title"), tagMap.getOrDefault(rs.getInt("id"), 0)));
                 if (tagMap.getOrDefault(rs.getInt("id"), 0) == tags.size()){
-                    aResult = new ArrayList<String>();
-                    int elementCount = 1;
-                    for (int i = 0;i<ifReturn.length;i++){
+                    aResult = new HashMap<String, String>();
+                    for (String i : request){
+                        aResult.put(i, rs.getString(i));
+                    }
+                    //int elementCount = 1;
+                    /*for (int i = 0;i<ifReturn.length;i++){
                         if (ifReturn[i]){
                             aResult.add(rs.getString(elementCount++));
                             continue;
                         }
                         aResult.add(null);
-                    }
+                    }*/
                     output.add(aResult);
                     resultCount++;
                     if (limit > 0 && resultCount >= limit)
@@ -280,22 +308,20 @@ public class DiaryManager{
         }
     }
     //getRecord all using id to get a specific record, use All to get every column, use Content to get content, use Custom to get some specific columns
-    public ArrayList<String> getRecordAll(int id){
+    public HashMap<String, String> getRecordAll(int id){
+        HashMap<String, String> result = new HashMap<String, String>();
         try{
             ResultSet rs = this.statement.executeQuery(String.format("SELECT * FROM RECORD WHERE id = %d", id));
-            if (!rs.next())
-                return new ArrayList<String>(Arrays.asList("", "", "", "", "", ""));
+            rs.next();
             
-            ArrayList<String> result = new ArrayList<String>(6);
-            for (int i = 0;i<6;i++){
-                result.add(rs.getString(RECORD_COLUMN[i]));
+            for (String i : RECORD_COLUMN){
+                result.put(i, rs.getString(i));
             }
-            return result;
         }
         catch(Exception e){
             e.printStackTrace();
         }
-        return new ArrayList<String>(Arrays.asList("", "", "", "", "", ""));
+        return result;
     }
     public String getRecordContent(int id){
         try{
@@ -309,30 +335,29 @@ public class DiaryManager{
         return "";
     }
     //[id, type, title, content, setDate, endTime]
-    public ArrayList<String> getRecordCustom(int id, boolean ifReturn[]){
-        int n = 0;
-        for (boolean i : ifReturn){
-            if (i) n++;
+    public HashMap<String, String> getRecordCustom(int id, ArrayList<String> request){
+        HashMap<String, String> result = new HashMap<String, String>();
+        String sqlQuery = "SELECT";
+        boolean isFirst = true;
+        for (String i : request){
+            if (isFirst){
+                sqlQuery += String.format(" %s", i);
+                isFirst = false;
+                continue;
+            }
+            sqlQuery += String.format(", %s", i);
         }
-        if (n == 0)
-            return new ArrayList<String>();
-        
-        ArrayList<String> result = new ArrayList<String>(n);
         try{
-            
-            ResultSet rs = this.statement.executeQuery(String.format("SELECT * FROM RECORD WHERE id = %d", id));
+            ResultSet rs = this.statement.executeQuery(sqlQuery + String.format(" WHERE id = %d", id));
             rs.next();
-            for (int i = 0;i<=RECORD_COLUMN_COUNT;i++){
-                if (ifReturn[i])
-                    result.add(rs.getString(RECORD_COLUMN[i]));
+            for (String i : request){
+                result.put(i, rs.getString(i));
             }
             return result;
         }
         catch(Exception e){
             e.printStackTrace();
         }
-        for (int i = 0;i<n;i++)
-            result.add("");
         return result;
     }
     private void saveTags(int id, ArrayList<String> tags){
