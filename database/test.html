@@ -94,11 +94,6 @@
         <input type="text" name="value" id="setSettingValue"/>
         <button type="button" onclick="setSetting()">submit</button>
 
-        
-        <!--<form method="post" action="http://127.0.0.1:5000/getSetting">
-            <input type="text" name="setting">
-            <input type="submit" value="submit">
-        </form>-->
         <h3>get Setting</h3>
         <input type="text" name="setting" id="getSettingText">
         <button type="submit" onclick="getSetting()">submit</button>
@@ -106,20 +101,10 @@
         <h3>get Settings</h3>
         <button type="button" onclick="getSettings()">get settings</button>
         <div id="output area"></div>
-        <!--<h3>save diary form</h3>
-        <form method="post" action="http://127.0.0.1:5000/saveDiary">
-            <input type="text" name="title" id="title"/>
-            <input type="text" name="content" id="content"/>
-            <input type="submit" value="submit"/>
-        </form>
-        <h3>save diary form</h3>
-        <form method="post" action="http://127.0.0.1:5000/saveDiary">
-            <input type="text" name="title" id="title"/>
-            <input type="text" name="content" id="content"/>
-            <input type="submit" value="submit"/>-->
+
         </form>
         <script>
-            
+
             //just run to make database, no parameters needed
             function makeDB(){
                 const xhttp = new XMLHttpRequest();
