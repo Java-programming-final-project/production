@@ -3,24 +3,53 @@
     <head>
     </head>
     <body>
-        <span>save diary form</span>
-        <form target="_self" method="post" action="http://127.0.0.1:5000/saveDiary">
+        <button type = "button" onclick="makeDB()">make database</button>
+        <button type = "button" onclick="resetDB()">reset database</button>
+        <button type = "button" onclick="resetSettings()">reset settings</button>
+
+        <h3>save diary form</h3>
+        <form method="post" action="http://127.0.0.1:5000/saveDiary">
             <input type="text" name="title" id="title"/>
             <input type="text" name="content" id="content"/>
+            <input type="text" name="tags" id="tags"/>
             <input type="submit" value="submit"/>
         </form>
-        <span>get record content</span>
-        <form target="_self" method="get" action="http://127.0.0.1:5000/getRecordContent">
+        <h3>save event form</h3>
+        <form method="post" action="http://127.0.0.1:5000/saveEvent">
+            <input type="text" name="title" id="title"/>
+            <input type="text" name="content" id="content"/>
+            <input type="datetime-local" name="endTime" id="endTime">
+            <input type="text" name="tags" id="tags"/>
+            <input type="submit" value="submit"/>
+        </form>
+        <h3>edit event form</h3>
+        <form method="post" action="http://127.0.0.1:5000/editRecord">
+            <input type="text" name="id"/>
+            <input type="text" name="title"/>
+            <input type="text" name="content"/>
+            <input type="datetime-local" name="endTime">
+            <input type="text" name="tags"/>
+            <input type="submit" value="submit"/>
+        </form>
+        <h3>get listed records</h3>
+        <button type="button" onclick="listRecord()">get listed records</button>
+        <h3>delete record by id</h3>
+        <form method="post" action="http://127.0.0.1:5000/deleteRecord">
             <input type="text" name="id"/>
             <input type="submit" value="submit"/>
         </form>
-        <span>get record all</span>
-        <form target="_self" method="get" action="http://127.0.0.1:5000/getRecordAll">
+        <h3>get record content</h3>
+        <form method="get" action="http://127.0.0.1:5000/getRecordContent">
             <input type="text" name="id"/>
             <input type="submit" value="submit"/>
         </form>
-        <span>get record custom</span>
-        <form target="_self" method="post" action="http://127.0.0.1:5000/getRecordCustom">
+        <h3>get record all</h3>
+        <form method="get" action="http://127.0.0.1:5000/getRecordAll">
+            <input type="text" name="id"/>
+            <input type="submit" value="submit"/>
+        </form>
+        <h3>get record custom</h3>
+        <form method="post" action="http://127.0.0.1:5000/getRecordCustom">
             <input type="text" name="recordId" id="recordId"/>
             <input type="checkbox" value = "id" name="query"/>
             <input type="checkbox" value = "type" name="query"/>
@@ -30,23 +59,111 @@
             <input type="checkbox" value = "endDate" name="query"/>
             <input type="submit" value="submit"/>
         </form>
-        <span>set setting form</span>
-        <form target="_self" method="post" action="http://127.0.0.1:5000/setSetting">
+        <h3>get tags in (tag, record id)</h3>
+        <button type="button" onclick="tags()">get tags</button>
+        <h3>get taglist in (tag, count of record of this tag)</h3>
+        <button type="button" onclick="taglist()">get taglist</button>
+        <h3>set setting form</h3>
+        <form method="post" action="http://127.0.0.1:5000/setSetting">
             <input type="text" name="setting" id="setting"/>
             <input type="text" name="value" id="value"/>
             <input type="submit" value="submit"/>
         </form>
-        <!--<span>save diary form</span>
+        <h3>get Setting</h3>
+        <form method="post" action="http://127.0.0.1:5000/getSetting">
+            <input type="text" name="setting">
+            <input type="submit" value="submit">
+        </form>
+        <h3>get Settings</h3>
+        <button type="button" onclick="getSettings()">get settings</button>
+        <div id="output area"></div>
+        <!--<h3>save diary form</h3>
         <form method="post" action="http://127.0.0.1:5000/saveDiary">
             <input type="text" name="title" id="title"/>
             <input type="text" name="content" id="content"/>
             <input type="submit" value="submit"/>
         </form>
-        <span>save diary form</span>
+        <h3>save diary form</h3>
         <form method="post" action="http://127.0.0.1:5000/saveDiary">
             <input type="text" name="title" id="title"/>
             <input type="text" name="content" id="content"/>
             <input type="submit" value="submit"/>-->
         </form>
+        <script>
+            function makeDB(){
+                const xhttp = new XMLHttpRequest();
+                xhttp.onload = function() {
+
+                }
+                xhttp.open("POST", "http://127.0.0.1:5000/makeDB", true);
+                xhttp.send();
+            }
+            function resetDB(){
+                const xhttp = new XMLHttpRequest();
+                xhttp.onload = function() {
+                }
+                xhttp.open("POST", "http://127.0.0.1:5000/resetDB", true);
+                xhttp.send();
+            }
+            function resetSettings(){
+                const xhttp = new XMLHttpRequest();
+                xhttp.onload = function() {
+                }
+                xhttp.open("POST", "http://127.0.0.1:5000/resetSettings", true);
+                xhttp.send();
+            }
+            function listRecord(){
+                const xhttp = new XMLHttpRequest();
+                xhttp.onload = function() {
+                    var output = document.getElementById("output area");
+                    console.log(this.responseText);
+                    output.innerHTML = this.responseText;
+                }
+                xhttp.open("GET", "http://127.0.0.1:5000/listRecord", true);
+                xhttp.send();
+            }
+            function tags(){
+                const xhttp = new XMLHttpRequest();
+                xhttp.onload = function() {
+                    var output = document.getElementById("output area");
+                    console.log(this.responseText);
+                    output.innerHTML = this.responseText;
+                }
+                xhttp.open("GET", "http://127.0.0.1:5000/tags", true);
+                xhttp.send();
+            }
+            function taglist(){
+                const xhttp = new XMLHttpRequest();
+                xhttp.onload = function() {
+                    var output = document.getElementById("output area");
+                    console.log(this.responseText);
+                    output.innerHTML = this.responseText;
+                }
+                xhttp.open("GET", "http://127.0.0.1:5000/tagList", true);
+                xhttp.send();
+            }
+            /*function getSetting(){
+                const xhttp = new XMLHttpRequest();
+                xhttp.onload = function() {
+                    var output = document.getElementById("output area");
+                    console.log(this.responseText);
+                    output.innerHTML = this.responseText;
+                }
+                var data = JSON.stringify({setting:parseInt(document.getElementById("getSettingText").value)})
+                xhttp.open("POST", "http://127.0.0.1:5000/getSetting", true);
+                xhttp.setRequestHeader('Content-type', 'application/json; charset=UTF-8')
+                xhttp.send(data);
+            }*/
+            function getSettings(){
+                const xhttp = new XMLHttpRequest();
+                xhttp.onload = function() {
+                    var output = document.getElementById("output area");
+                    console.log(this.responseText);
+                    output.innerHTML = this.responseText;
+                }
+                xhttp.open("GET", "http://127.0.0.1:5000/getSettings", true);
+                xhttp.send();
+            }
+        </script>
     </body>
 </html>
