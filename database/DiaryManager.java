@@ -165,7 +165,7 @@ public class DiaryManager{
     //I'll need to escape all special letters
     public ArrayList<HashMap<String, String>> searchRecord(HashMap<String, String> conditionSet, ArrayList<String> tags, ArrayList<String> request, int limit, ArrayList<Pair<String, Boolean>> conditionOrder){
         ArrayList<HashMap<String, String>> output = new ArrayList<HashMap<String, String>>();
-        String search = "SELECT";
+        String search = "SELECT id";
         /*//int returnColumnNumber = 0;
         
         for (int i = 1, isFirst = 1;i<RECORD_COLUMN_COUNT;i++){
@@ -175,11 +175,13 @@ public class DiaryManager{
             }
         }*/
         for (int i = 0, isFirst = 1;i<request.size();i++){
-            if (isFirst == 1){
+            /*if (isFirst == 1){
                 search += String.format(" %s", request.get(i));
                 isFirst = 0;
                 continue;
-            }
+            }*/
+            if (request.get(i).equals("id"))
+                continue;
             search += String.format(", %s", request.get(i));
         }
         if (conditionSet.size() != 0){
@@ -257,6 +259,7 @@ public class DiaryManager{
                     aResult = new HashMap<String, String>();
                     for (String i : request){
                         aResult.put(i, rs.getString(i));
+                        //System.out.print(" " + rs.getString(i));
                     }
                     //int elementCount = 1;
                     /*for (int i = 0;i<ifReturn.length;i++){
@@ -348,7 +351,7 @@ public class DiaryManager{
             sqlQuery += String.format(", %s", i);
         }
         try{
-            System.out.println(sqlQuery + String.format("FROM RECORD WHERE id = %d", id));
+            System.out.println(sqlQuery + String.format(" FROM RECORD WHERE id = %d", id));
             ResultSet rs = this.statement.executeQuery(sqlQuery + String.format(" FROM RECORD WHERE id = %d", id));
             rs.next();
             for (String i : request){

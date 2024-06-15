@@ -8,72 +8,101 @@
         <button type = "button" onclick="resetSettings()">reset settings</button>
 
         <h3>save diary form</h3>
-        <form method="post" action="http://127.0.0.1:5000/saveDiary">
-            <input type="text" name="title" id="title"/>
-            <input type="text" name="content" id="content"/>
-            <input type="text" name="tags" id="tags"/>
-            <input type="submit" value="submit"/>
-        </form>
+        <input type="text" name="title" id="saveDiaryTitle">
+        <input type="text" name="content" id="saveDiaryContent">
+        <input type="text" name="tags" id="saveDiaryTags">
+        <button type="button" onclick="saveDiary()">save Diary</button>
+
         <h3>save event form</h3>
-        <form method="post" action="http://127.0.0.1:5000/saveEvent">
-            <input type="text" name="title" id="title"/>
-            <input type="text" name="content" id="content"/>
-            <input type="datetime-local" name="endTime" id="endTime">
-            <input type="text" name="tags" id="tags"/>
-            <input type="submit" value="submit"/>
-        </form>
-        <h3>edit event form</h3>
-        <form method="post" action="http://127.0.0.1:5000/editRecord">
-            <input type="text" name="id"/>
-            <input type="text" name="title"/>
-            <input type="text" name="content"/>
-            <input type="datetime-local" name="endTime">
-            <input type="text" name="tags"/>
-            <input type="submit" value="submit"/>
-        </form>
+
+        <input type="text" name="title" id="saveEventTitle"/>
+        <input type="text" name="content" id="saveEventContent"/>
+        <input type="datetime-local" name="endTime" id="saveEventEndTime">
+        <input type="text" name="tags" id="saveEventTags"/>
+        <button type="button" onclick="saveEvent()">save Event</button>
+
+        <h3>edit record form</h3>
+        <input type="text" name="id" id="editRecordId">
+        <input type="text" name="title" id="editRecordTitle"/>
+        <input type="text" name="content" id="editRecordContent"/>
+        <input type="datetime-local" name="endTime" id="editRecordEndTime">
+        <input type="text" name="tags" id="editRecordTags"/>
+        <button type="button" onclick="editRecord()">edit Event</button>
+
         <h3>get listed records</h3>
         <button type="button" onclick="listRecord()">get listed records</button>
+
         <h3>delete record by id</h3>
-        <form method="post" action="http://127.0.0.1:5000/deleteRecord">
-            <input type="text" name="id"/>
-            <input type="submit" value="submit"/>
-        </form>
+        <input type="text" id="deleteRecordId">
+        <button type="button" onclick="deleteRecord()">delete record</button>
+
         <h3>get record content</h3>
-        <form method="get" action="http://127.0.0.1:5000/getRecordContent">
-            <input type="text" name="id"/>
-            <input type="submit" value="submit"/>
-        </form>
+        <input type="text" id="getRecordContentId">
+        <button type="button" onclick="getRecordContent()">get record content</button>
+        
         <h3>get record all</h3>
-        <form method="get" action="http://127.0.0.1:5000/getRecordAll">
-            <input type="text" name="id"/>
-            <input type="submit" value="submit"/>
-        </form>
+        <input type="text" id="getRecordAllId">
+        <button type="button" onclick="getRecordAll()">get record all</button>
+
         <h3>get record custom</h3>
-        <form method="post" action="http://127.0.0.1:5000/getRecordCustom">
-            <input type="text" name="recordId" id="recordId"/>
-            <input type="checkbox" value = "id" name="query"/>
-            <input type="checkbox" value = "type" name="query"/>
-            <input type="checkbox" value = "title" name="query"/>
-            <input type="checkbox" value = "content" name="query"/>
-            <input type="checkbox" value = "setDate" name="query"/>
-            <input type="checkbox" value = "endDate" name="query"/>
-            <input type="submit" value="submit"/>
-        </form>
+        <input type="text" id="getRecordCustomId"/>
+        <input type="checkbox" name="getRecordCustom" value = "id" id="getRecordCustomRId">
+        <input type="checkbox" name="getRecordCustom" value = "type" id="getRecordCustomRType">
+        <input type="checkbox" name="getRecordCustom" value = "title" id="getRecordCustomRTitle">
+        <input type="checkbox" name="getRecordCustom" value = "content" id="getRecordCustomRContent">
+        <input type="checkbox" name="getRecordCustom" value = "setDate" id="getRecordCustomRSetDate">
+        <input type="checkbox" name="getRecordCustom" value = "endTime" id="getRecordCustomREndTime">
+        <button type="button" onclick="getRecordCustom()">get record custom</button>
+
+        <h3>search records</h3>
+        <div>
+            condition
+            <input type="text" name="conditionName" id="conditionName">
+            <input type="text" name="conditionValue" id="conditionValue">
+            <input type="button" value="add condition" onclick="addCondition()">
+        </div>
+        <div id="condition showboard"></div>
+        <p>tags</p>
+        <input type="text" name="tags" id="searchRecordTags">
+        <p>query</p>
+        <input type="checkbox" name="searchRecord" value = "id" id="searchRecordRId">
+        <input type="checkbox" name="searchRecord" value = "type" id="searchRecordRType">
+        <input type="checkbox" name="searchRecord" value = "title" id="searchRecordRTitle">
+        <input type="checkbox" name="searchRecord" value = "content" id="searchRecordRContent">
+        <input type="checkbox" name="searchRecord" value = "setDate" id="searchRecordRSetDate">
+        <input type="checkbox" name="searchRecord" value = "endTime" id="searchRecordREndTime">
+        <p>limit</p>
+        <input type="number" name="limit" id="searchRecordLimit">
+        <div>
+            order
+            <input type="text" name="orderName" id="orderName">
+            <input type="radio" value = "true" name="orderBoolean">
+            <input type="radio" value = "false" name="orderBoolean">
+            <input type="button" value="add order" onclick="addOrder()">
+        </div>
+        <div id="order showboard"></div>
+        <button type="button" onclick="searchRecord()">submit</button>
+
         <h3>get tags in (tag, record id)</h3>
         <button type="button" onclick="tags()">get tags</button>
+
         <h3>get taglist in (tag, count of record of this tag)</h3>
         <button type="button" onclick="taglist()">get taglist</button>
+
         <h3>set setting form</h3>
-        <form method="post" action="http://127.0.0.1:5000/setSetting">
-            <input type="text" name="setting" id="setting"/>
-            <input type="text" name="value" id="value"/>
-            <input type="submit" value="submit"/>
-        </form>
-        <h3>get Setting</h3>
-        <form method="post" action="http://127.0.0.1:5000/getSetting">
+        <input type="text" name="setting" id="setSettingName"/>
+        <input type="text" name="value" id="setSettingValue"/>
+        <button type="button" onclick="setSetting()">submit</button>
+
+        
+        <!--<form method="post" action="http://127.0.0.1:5000/getSetting">
             <input type="text" name="setting">
             <input type="submit" value="submit">
-        </form>
+        </form>-->
+        <h3>get Setting</h3>
+        <input type="text" name="setting" id="getSettingText">
+        <button type="submit" onclick="getSetting()">submit</button>
+
         <h3>get Settings</h3>
         <button type="button" onclick="getSettings()">get settings</button>
         <div id="output area"></div>
@@ -112,6 +141,54 @@
                 xhttp.open("POST", "http://127.0.0.1:5000/resetSettings", true);
                 xhttp.send();
             }
+            function saveDiary(){
+                const xhttp = new XMLHttpRequest();
+                xhttp.onload = function() {
+                    var output = document.getElementById("output area");
+                    console.log(this.responseText);
+                    output.innerHTML = this.responseText;
+                }
+                var data = {title:document.getElementById("saveDiaryTitle").value, content:document.getElementById("saveDiaryContent").value, tags:document.getElementById("saveDiaryTags").value};
+                xhttp.open("POST", "http://127.0.0.1:5000/saveDiary", true);
+                xhttp.setRequestHeader("Content-type", 'application/json');
+                xhttp.send(JSON.stringify(data));
+            }
+            function saveEvent(){
+                const xhttp = new XMLHttpRequest();
+                xhttp.onload = function() {
+                    var output = document.getElementById("output area");
+                    console.log(this.responseText);
+                    output.innerHTML = this.responseText;
+                }
+                var data = {title:document.getElementById("saveEventTitle").value, content:document.getElementById("saveEventContent").value, tags:document.getElementById("saveEventTags").value, endTime:document.getElementById("saveEventEndTime").value};
+                xhttp.open("POST", "http://127.0.0.1:5000/saveEvent", true);
+                xhttp.setRequestHeader("Content-type", 'application/json');
+                xhttp.send(JSON.stringify(data));
+            }
+            function editRecord(){
+                const xhttp = new XMLHttpRequest();
+                xhttp.onload = function() {
+                    var output = document.getElementById("output area");
+                    console.log(this.responseText);
+                    output.innerHTML = this.responseText;
+                }
+                var data = {id:document.getElementById("editRecordId").value, title:document.getElementById("editRecordTitle").value, content:document.getElementById("editRecordContent").value, tags:document.getElementById("editRecordTags").value, endTime:document.getElementById("editRecordEndTime").value};
+                xhttp.open("POST", "http://127.0.0.1:5000/editRecord", true);
+                xhttp.setRequestHeader("Content-type", 'application/json');
+                xhttp.send(JSON.stringify(data));
+            }
+            function deleteRecord(){
+                const xhttp = new XMLHttpRequest();
+                xhttp.onload = function() {
+                    var output = document.getElementById("output area");
+                    console.log(this.responseText);
+                    output.innerHTML = this.responseText;
+                }
+                var data = {id:document.getElementById("deleteRecordId").value};
+                xhttp.open("POST", "http://127.0.0.1:5000/deleteRecord", true);
+                xhttp.setRequestHeader("Content-type", 'application/json');
+                xhttp.send(JSON.stringify(data));
+            }
             function listRecord(){
                 const xhttp = new XMLHttpRequest();
                 xhttp.onload = function() {
@@ -121,6 +198,47 @@
                 }
                 xhttp.open("GET", "http://127.0.0.1:5000/listRecord", true);
                 xhttp.send();
+            }
+            function getRecordContent(){
+                const xhttp = new XMLHttpRequest();
+                xhttp.onload = function() {
+                    var output = document.getElementById("output area");
+                    console.log(this.responseText);
+                    output.innerHTML = this.responseText;
+                }
+                var data = {id:document.getElementById("getRecordContentId").value};
+                xhttp.open("POST", "http://127.0.0.1:5000/getRecordContent", true);
+                xhttp.setRequestHeader("Content-type", 'application/json');
+                xhttp.send(JSON.stringify(data));
+            }
+            function getRecordAll(){
+                const xhttp = new XMLHttpRequest();
+                xhttp.onload = function() {
+                    var output = document.getElementById("output area");
+                    console.log(this.responseText);
+                    output.innerHTML = this.responseText;
+                }
+                var data = {id:document.getElementById("getRecordAllId").value};
+                xhttp.open("POST", "http://127.0.0.1:5000/getRecordAll", true);
+                xhttp.setRequestHeader("Content-type", 'application/json');
+                xhttp.send(JSON.stringify(data));
+            }
+            function getRecordCustom(){
+                const xhttp = new XMLHttpRequest();
+                xhttp.onload = function() {
+                    var output = document.getElementById("output area");
+                    console.log(this.responseText);
+                    output.innerHTML = this.responseText;
+                }
+                qu = []
+                document.querySelectorAll("input[name='getRecordCustom']:checked").forEach(element => {
+                    qu.push(element.value);
+                });
+                
+                var data = {id:document.getElementById("getRecordCustomId").value, query:qu};
+                xhttp.open("POST", "http://127.0.0.1:5000/getRecordCustom", true);
+                xhttp.setRequestHeader("Content-type", 'application/json');
+                xhttp.send(JSON.stringify(data));
             }
             function tags(){
                 const xhttp = new XMLHttpRequest();
@@ -142,18 +260,30 @@
                 xhttp.open("GET", "http://127.0.0.1:5000/tagList", true);
                 xhttp.send();
             }
-            /*function getSetting(){
+            function setSetting(){
                 const xhttp = new XMLHttpRequest();
                 xhttp.onload = function() {
                     var output = document.getElementById("output area");
                     console.log(this.responseText);
                     output.innerHTML = this.responseText;
                 }
-                var data = JSON.stringify({setting:parseInt(document.getElementById("getSettingText").value)})
+                var data = {setting:document.getElementById("setSettingName").value, value:document.getElementById("setSettingValue").value};
+                xhttp.open("POST", "http://127.0.0.1:5000/setSetting", true);
+                xhttp.setRequestHeader("Content-type", 'application/json');
+                xhttp.send(JSON.stringify(data));
+            }
+            function getSetting(){
+                const xhttp = new XMLHttpRequest();
+                xhttp.onload = function() {
+                    var output = document.getElementById("output area");
+                    console.log(this.responseText);
+                    output.innerHTML = this.responseText;
+                }
+                var data = {setting:document.getElementById("getSettingText").value};
                 xhttp.open("POST", "http://127.0.0.1:5000/getSetting", true);
-                xhttp.setRequestHeader('Content-type', 'application/json; charset=UTF-8')
-                xhttp.send(data);
-            }*/
+                xhttp.setRequestHeader("Content-type", 'application/json');
+                xhttp.send(JSON.stringify(data));
+            }
             function getSettings(){
                 const xhttp = new XMLHttpRequest();
                 xhttp.onload = function() {
@@ -161,8 +291,62 @@
                     console.log(this.responseText);
                     output.innerHTML = this.responseText;
                 }
-                xhttp.open("GET", "http://127.0.0.1:5000/getSettings", true);
+                xhttp.open("GET", "http://localhost:5000/getSettings", true);
                 xhttp.send();
+            }
+            function searchRecord(){
+                const xhttp = new XMLHttpRequest();
+                xhttp.onload = function() {
+                    var output = document.getElementById("output area");
+                    console.log(this.responseText);
+                    output.innerHTML = this.responseText;
+                }
+                qu = []
+                document.querySelectorAll("input[name='searchRecord']:checked").forEach(element => {
+                    qu.push(element.value);
+                });
+                
+                var data = {conditions:conditions, tags:document.getElementById("searchRecordTags").value, query:qu, limit:document.getElementById("searchRecordLimit").value, orders:orders};
+                xhttp.open("POST", "http://127.0.0.1:5000/searchRecord", true);
+                xhttp.setRequestHeader("Content-type", 'application/json');
+                xhttp.send(JSON.stringify(data));
+            }
+            /*function searchRecord(){
+                const xhttp = new XMLHttpRequest();
+                xhttp.onload = function() {
+                    var output = document.getElementById("output area");
+                    console.log(this.responseText);
+                    output.innerHTML = this.responseText;
+                }
+                console.log(conditions);
+                console.log(document.querySelector("input[name='query']").checked);
+                console.log(document.getElementById("limit").value);
+                console.log(document.getElementById("searchTags").value);
+                console.log(orders);
+                var data = {"conditions":conditions, "query":document.querySelector("input[name='query']").checked, "limit":document.getElementById("limit").value, "tags":document.getElementById("searchTags").value, "orders":orders};
+                console.log(data);
+                xhttp.open("POST", "http://localhost:5000/searchRecord", true);
+                xhttp.setRequestHeader("Content-Type", "application/json");
+                xhttp.send(data);
+            }*/
+            var conditions = {};
+            function addCondition(){
+                var name = document.getElementById("conditionName");
+                var value = document.getElementById("conditionValue");
+                conditions[name.value] = value.value;
+                name.value = "";
+                value.value = "";
+                console.log(conditions);
+                document.getElementById("condition showboard").innerHTML = JSON.stringify(conditions);
+            }
+            var orders = {}
+            function addOrder(){
+                var name = document.getElementById("orderName");
+                var value = document.querySelector("input[name='orderBoolean']:checked");
+                orders[name.value] = value.value;
+                name.value = "";
+                //value.value = "";
+                document.getElementById("order showboard").innerHTML = JSON.stringify(orders);
             }
         </script>
     </body>
