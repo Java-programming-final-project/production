@@ -119,6 +119,8 @@
             <input type="submit" value="submit"/>-->
         </form>
         <script>
+            
+            //just run to make database, no parameters needed
             function makeDB(){
                 const xhttp = new XMLHttpRequest();
                 xhttp.onload = function() {
@@ -127,6 +129,8 @@
                 xhttp.open("POST", "http://127.0.0.1:5000/makeDB", true);
                 xhttp.send();
             }
+
+            //just run to reset database, no parameters needed
             function resetDB(){
                 const xhttp = new XMLHttpRequest();
                 xhttp.onload = function() {
@@ -134,6 +138,8 @@
                 xhttp.open("POST", "http://127.0.0.1:5000/resetDB", true);
                 xhttp.send();
             }
+
+            //run to reset user settings, no parameters
             function resetSettings(){
                 const xhttp = new XMLHttpRequest();
                 xhttp.onload = function() {
@@ -141,6 +147,8 @@
                 xhttp.open("POST", "http://127.0.0.1:5000/resetSettings", true);
                 xhttp.send();
             }
+
+            //save Diary, paramter {title:String, content:String, tags:String(seperate tags by space)}
             function saveDiary(){
                 const xhttp = new XMLHttpRequest();
                 xhttp.onload = function() {
@@ -153,6 +161,8 @@
                 xhttp.setRequestHeader("Content-type", 'application/json');
                 xhttp.send(JSON.stringify(data));
             }
+
+            //save event, parameter {title:String, content:String, endTime:datetime, tags:String(seperate tags by space)}
             function saveEvent(){
                 const xhttp = new XMLHttpRequest();
                 xhttp.onload = function() {
@@ -165,6 +175,9 @@
                 xhttp.setRequestHeader("Content-type", 'application/json');
                 xhttp.send(JSON.stringify(data));
             }
+
+            //edit record (if no input, the column will become empty after edit)
+            //parameters {id:String/int, title:String, content:String, endTime:datetime, tags:String(seperate tags by space)}
             function editRecord(){
                 const xhttp = new XMLHttpRequest();
                 xhttp.onload = function() {
@@ -177,6 +190,9 @@
                 xhttp.setRequestHeader("Content-type", 'application/json');
                 xhttp.send(JSON.stringify(data));
             }
+
+            //delete record (by id)
+            // parameters {id:int/String}
             function deleteRecord(){
                 const xhttp = new XMLHttpRequest();
                 xhttp.onload = function() {
@@ -189,6 +205,9 @@
                 xhttp.setRequestHeader("Content-type", 'application/json');
                 xhttp.send(JSON.stringify(data));
             }
+
+            //returns all records' in an array
+            //each array comes in {id:string, title:string, setDate:time(presented in string)}
             function listRecord(){
                 const xhttp = new XMLHttpRequest();
                 xhttp.onload = function() {
@@ -199,6 +218,9 @@
                 xhttp.open("GET", "http://127.0.0.1:5000/listRecord", true);
                 xhttp.send();
             }
+
+            //returns content(string) of a specific record by id
+            //parameter {id:int/string}
             function getRecordContent(){
                 const xhttp = new XMLHttpRequest();
                 xhttp.onload = function() {
@@ -211,6 +233,10 @@
                 xhttp.setRequestHeader("Content-type", 'application/json');
                 xhttp.send(JSON.stringify(data));
             }
+
+            //returns all information of a specific record by id
+            //parameter {id:int/string}
+            //returns {id:string, type:string, title:string, content:string, setDate:date(in string), endTime:datetime(in string)}
             function getRecordAll(){
                 const xhttp = new XMLHttpRequest();
                 xhttp.onload = function() {
@@ -223,6 +249,10 @@
                 xhttp.setRequestHeader("Content-type", 'application/json');
                 xhttp.send(JSON.stringify(data));
             }
+
+            //returns some assigned information of a specific record by id
+            //example: parameter {id:int/string, query:["content", "title"]}
+            //returns {content:string, title:string}
             function getRecordCustom(){
                 const xhttp = new XMLHttpRequest();
                 xhttp.onload = function() {
@@ -240,6 +270,9 @@
                 xhttp.setRequestHeader("Content-type", 'application/json');
                 xhttp.send(JSON.stringify(data));
             }
+
+            //returns tags in [[tagText, recordId],[tagText, recordId]......]
+            //no parameters needed
             function tags(){
                 const xhttp = new XMLHttpRequest();
                 xhttp.onload = function() {
@@ -250,6 +283,9 @@
                 xhttp.open("GET", "http://127.0.0.1:5000/tags", true);
                 xhttp.send();
             }
+
+            //returns tags in [[tagText, tagCount],[tagText, tagCount]......]
+            //no parameters needed
             function taglist(){
                 const xhttp = new XMLHttpRequest();
                 xhttp.onload = function() {
@@ -260,6 +296,9 @@
                 xhttp.open("GET", "http://127.0.0.1:5000/tagList", true);
                 xhttp.send();
             }
+
+            //set a user setting
+            //parameter {setting:string, value:string}
             function setSetting(){
                 const xhttp = new XMLHttpRequest();
                 xhttp.onload = function() {
@@ -272,6 +311,9 @@
                 xhttp.setRequestHeader("Content-type", 'application/json');
                 xhttp.send(JSON.stringify(data));
             }
+
+            //get a user setting
+            //parameter {setting:string}
             function getSetting(){
                 const xhttp = new XMLHttpRequest();
                 xhttp.onload = function() {
@@ -284,6 +326,9 @@
                 xhttp.setRequestHeader("Content-type", 'application/json');
                 xhttp.send(JSON.stringify(data));
             }
+            
+            //returns all settings in a map {setting1:value1(string), setting2:value2......}
+            //no parameters needed
             function getSettings(){
                 const xhttp = new XMLHttpRequest();
                 xhttp.onload = function() {
@@ -294,6 +339,13 @@
                 xhttp.open("GET", "http://localhost:5000/getSettings", true);
                 xhttp.send();
             }
+
+            //customized searching
+            //parameters {conditions:{}, tags:string, limit:string/int, orders:[], query:[]}
+            //returns [{record1}, {record2}.... {record limit}]
+            //example paramenters{conditions:{title:love, setAfter:2023-01-25}, tags:"love hate sense", limit:2, orders:[["setDate", true]], query:["title", "content"]}
+            //returns [{title:"I love you", content:"Nah it was a joke bro"}, {"title":"what is love?", content:"God is love (maybe)"}]
+            //note: if ordering is bad, don't use it for now, not maintained yet
             function searchRecord(){
                 const xhttp = new XMLHttpRequest();
                 xhttp.onload = function() {
@@ -311,24 +363,8 @@
                 xhttp.setRequestHeader("Content-type", 'application/json');
                 xhttp.send(JSON.stringify(data));
             }
-            /*function searchRecord(){
-                const xhttp = new XMLHttpRequest();
-                xhttp.onload = function() {
-                    var output = document.getElementById("output area");
-                    console.log(this.responseText);
-                    output.innerHTML = this.responseText;
-                }
-                console.log(conditions);
-                console.log(document.querySelector("input[name='query']").checked);
-                console.log(document.getElementById("limit").value);
-                console.log(document.getElementById("searchTags").value);
-                console.log(orders);
-                var data = {"conditions":conditions, "query":document.querySelector("input[name='query']").checked, "limit":document.getElementById("limit").value, "tags":document.getElementById("searchTags").value, "orders":orders};
-                console.log(data);
-                xhttp.open("POST", "http://localhost:5000/searchRecord", true);
-                xhttp.setRequestHeader("Content-Type", "application/json");
-                xhttp.send(data);
-            }*/
+            
+            //used to build up condition for searchRecord
             var conditions = {};
             function addCondition(){
                 var name = document.getElementById("conditionName");
@@ -339,11 +375,13 @@
                 console.log(conditions);
                 document.getElementById("condition showboard").innerHTML = JSON.stringify(conditions);
             }
-            var orders = {}
+
+            //used to build up order for searchRecord
+            var orders = [];
             function addOrder(){
                 var name = document.getElementById("orderName");
                 var value = document.querySelector("input[name='orderBoolean']:checked");
-                orders[name.value] = value.value;
+                orders.push([name.value, value.value])
                 name.value = "";
                 //value.value = "";
                 document.getElementById("order showboard").innerHTML = JSON.stringify(orders);

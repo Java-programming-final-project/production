@@ -8,6 +8,7 @@ DiaryManager = autoclass("DiaryManager")
 Pair = autoclass("Pair")
 DB = DiaryManager()
 String = autoclass('java.lang.String')
+Boolean = autoclass("java.lang.Boolean")
 ArrayList = autoclass("java.util.ArrayList")
 JavaArray = autoclass('java.lang.reflect.Array')
 HashMap = autoclass("java.util.HashMap")
@@ -120,8 +121,11 @@ def searchRecord():
         toreturn.add(r)
 
     orders = ArrayList()
-    for order, value in request.json["orders"]:
-        orders.put(Pair(order, value))
+    for order in request.json["orders"]:
+        if (order[1] == "true"):
+            orders.add(Pair(order[0], Boolean(True)))
+        else:
+            orders.add(Pair(order[0], Boolean(False)))
     
     return list(map(lambda x:dict(x.entrySet()), DB.searchRecord(conditions, tags, toreturn, int(request.json["limit"]), orders)))
 
