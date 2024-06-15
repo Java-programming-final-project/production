@@ -348,7 +348,8 @@ public class DiaryManager{
             sqlQuery += String.format(", %s", i);
         }
         try{
-            ResultSet rs = this.statement.executeQuery(sqlQuery + String.format(" WHERE id = %d", id));
+            System.out.println(sqlQuery + String.format("FROM RECORD WHERE id = %d", id));
+            ResultSet rs = this.statement.executeQuery(sqlQuery + String.format(" FROM RECORD WHERE id = %d", id));
             rs.next();
             for (String i : request){
                 result.put(i, rs.getString(i));

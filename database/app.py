@@ -74,14 +74,12 @@ def getRecordContent():
 
 @app.route("/getRecordCustom", methods = ["POST"])
 def getRecordCustom():
-    #print(int(request.values["recordId"]), request.form.getlist("query"))
-    #print(dict(DB.getRecordCustom()))
-    
-    #toreturn = ArrayList()
-    #for r in request.form.getlist("query"):
-    #    toreturn.add(r)
-    #print(DB.getRecordCustom(int(request.values["id"]), JavaArray.newInstance(String, 3)))
-    return ""#dict(.entrySet())
+
+    toreturn = ArrayList()
+    for r in request.form.getlist("query"):
+        toreturn.add(r)
+    print(int(request.values["recordId"]), list(toreturn))
+    return dict(DB.getRecordCustom(int(request.values["recordId"]), toreturn).entrySet())
 
 @app.route("/tagList", methods = ["GET"])
 def tagList():
