@@ -24,7 +24,7 @@ public class DBManagerTerminal{
                 String act = scanner.nextLine();
                 if (act.equals(""))
                     break;
-                int selection = Integer.parseInt(act), id;
+                int selection = Integer.parseInt(act), id, newID;
                 String title, content, line, endTime;
                 ArrayList<String> tags;
                 ArrayList<Pair<String, Integer>> allTags;
@@ -49,7 +49,7 @@ public class DBManagerTerminal{
                                 break;
                             tags.add(tag);
                         }
-                        db.saveDiary(title, content, tags);
+                        newID = db.saveDiary(title, content, tags);
                         break;
                     case 2:
                         //add select by tag or title and change order later in development
@@ -123,7 +123,7 @@ public class DBManagerTerminal{
                         }
                         System.out.println("input endTime below");
                         endTime = scanner.nextLine();
-                        db.saveEvent(title, content, endTime, tags);
+                        newID = db.saveEvent(title, content, endTime, tags);
                         break;
                     case 4:
                         System.out.println("Input id of record to change");

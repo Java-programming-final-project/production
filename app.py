@@ -54,9 +54,9 @@ def saveDiary():
     tags = ArrayList()
     for i in request.json["tags"].split(" "):
         tags.add(i)
-    DB.saveDiary(request.json["title"], request.json["content"], tags)
+    newID = DB.saveDiary(request.json["title"], request.json["content"], tags)
     print("saved Diary {}".format(request.json["title"]))
-    return "diary saved"
+    return str(newID)
 
 @app.route("/saveEvent", methods = ["POST"])
 @cross_origin()
@@ -64,9 +64,9 @@ def saveEvent():
     tags = ArrayList()
     for i in request.json["tags"].split(" "):
         tags.add(i)
-    DB.saveEvent(request.json["title"], request.json["content"], request.json["endTime"], tags)
+    newID = DB.saveEvent(request.json["title"], request.json["content"], request.json["endTime"], tags)
     print("saved event {}".format(request.json["title"]))
-    return "event saved"
+    return str(newID)
 
 """ 
 @app.route("/saveSchedule", methods=["POST"])

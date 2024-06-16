@@ -98,23 +98,26 @@ public class DiaryManager{
         }
     }
     //maybe make the diary unchangable after the day
-    public void saveDiary(String title, String diary_text){
+    public int saveDiary(String title, String diary_text){
+        int newID = -1;
         try{
             ResultSet rs = this.statement.executeQuery("SELECT MAX(id) FROM RECORD");
             rs.next();
-            int newID = rs.getInt(1)+1;
+            newID = rs.getInt(1)+1;
             //System.out.println(String.format("insert into RECORD values(%d, 0, '%s', '%s', DATE(), NULL)", newID, title.replaceAll("'", "''"), diary_text.replaceAll("'", "''")));
             this.statement.executeUpdate(String.format("insert into RECORD values(%d, 0, '%s', '%s', DATE(), NULL)", newID, title.replaceAll("'", "''"), diary_text.replaceAll("'", "''")));
         }
         catch(Exception e){
             e.printStackTrace();
         }
+        return newID;
     }
-    public void saveDiary(String title, String diaryContent, ArrayList<String> tags){
+    public int saveDiary(String title, String diaryContent, ArrayList<String> tags){
+        int newID = -1;
         try{
             ResultSet rs = this.statement.executeQuery("SELECT MAX(id) FROM RECORD");
             rs.next();
-            int newID = rs.getInt(1)+1;
+            newID = rs.getInt(1)+1;
             //System.out.println(String.format("insert into RECORD values(%d, 0, '%s', '%s', DATE(), NULL)", newID, title.replaceAll("'", "''"), diaryContent.replaceAll("'", "''")));
             this.statement.executeUpdate(String.format("INSERT INTO RECORD VALUES(%d, 0, '%s', '%s', DATE(), NULL)", newID, title.replaceAll("'", "''"), diaryContent.replaceAll("'", "''")));
             //rs = this.statement.executeQuery(String.format("SELECT * FROM RECORD WHERE id = %d", newID));
@@ -125,19 +128,22 @@ public class DiaryManager{
         catch(Exception e){
             e.printStackTrace();
         }
+        return newID;
     }
 
-    public void saveEvent(String title, String eventContent, String endTime, ArrayList<String> tags){
+    public int saveEvent(String title, String eventContent, String endTime, ArrayList<String> tags){
+        int newID = -1;
         try{
             ResultSet rs = this.statement.executeQuery("SELECT MAX(id) FROM RECORD");
             rs.next();
-            int newID = rs.getInt(1)+1;
+            newID = rs.getInt(1)+1;
             this.statement.executeUpdate(String.format("insert into RECORD values(%d, 1, '%s', '%s', DATE(), '%s')", newID, title.replaceAll("'", "''"), eventContent.replaceAll("'", "''"), endTime));
             saveTags(newID, tags);
         }
         catch(Exception e){
             e.printStackTrace();
         }
+        return newID;
     }
     public ArrayList<HashMap<String, String>> listRecord(){
         ArrayList<HashMap<String, String>> result = new ArrayList<HashMap<String, String>>();
