@@ -8,18 +8,26 @@
         <button type = "button" onclick="resetSettings()">reset settings</button>
 
         <h3>save diary form</h3>
-        <input type="text" name="title" id="saveDiaryTitle">
-        <input type="text" name="content" id="saveDiaryContent">
-        <input type="text" name="tags" id="saveDiaryTags">
+        <input type="text" id="saveDiaryTitle">
+        <input type="text" id="saveDiaryContent">
+        <input type="text" id="saveDiaryTags">
         <button type="button" onclick="saveDiary()">save Diary</button>
 
         <h3>save event form</h3>
 
-        <input type="text" name="title" id="saveEventTitle"/>
-        <input type="text" name="content" id="saveEventContent"/>
-        <input type="datetime-local" name="endTime" id="saveEventEndTime">
-        <input type="text" name="tags" id="saveEventTags"/>
+        <input type="text" id="saveEventTitle"/>
+        <input type="text" id="saveEventContent"/>
+        <input type="datetime-local" id="saveEventEndTime">
+        <input type="text" id="saveEventTags"/>
         <button type="button" onclick="saveEvent()">save Event</button>
+
+        <h3>schedule form</h3>
+
+        <input type="date" id="scheduleSetDate" onchange="getSchedule()"/> <span id="scheduleIdSaver"></span>
+        <input type="text" id="scheduleTitle"/>
+        <input type="text" id="scheduleContent"/>
+        <input type="text" name="tags" id="scheduleTags"/>
+        <button type="button" onclick="editSchedule()">save schedule</button>
 
         <h3>edit record form</h3>
         <input type="text" name="id" id="editRecordId">
@@ -370,6 +378,39 @@
                 name.value = "";
                 //value.value = "";
                 document.getElementById("order showboard").innerHTML = JSON.stringify(orders);
+            }
+            var scheduleId = -1;
+            function getSchedule(){
+                var date = document.getElementById("scheduleSetDate").value;
+                const xhttp = new XMLHttpRequest();
+                xhttp.onload = function() {
+                    var aSchedule = JSON.parse(this.responseText);
+                    //console.log(aSchedule);
+                    //console.log(aSchedule.id);
+                    scheduleId = aSchedule.id;
+                    //console.log(scheduleId);
+                    document.getElementById("scheduleTitle").value = aSchedule.title;
+                    document.getElementById("scheduleContent").value = aSchedule.content;
+                    if (aSchedule.endTime != null)
+                        document.getElementById("scheduleEndTime").value = aSchedule.endTime;
+                }
+                var data = {date:date};
+                xhttp.open("POST", "http://127.0.0.1:5000/getSchedule", true);
+                xhttp.setRequestHeader("Content-type", 'application/json');
+                xhttp.send(JSON.stringify(data));
+            }
+            function editSchedule(){
+                const xhttp = new XMLHttpRequest();
+                xhttp.onload = function() {
+                    var output = document.getElementById("output area");
+                    console.log(this.responseText);
+                    output.innerHTML = this.responseText;
+                }
+                console.log(scheduleId);
+                var data = {id:scheduleId, title:document.getElementById("scheduleTitle").value, content:document.getElementById("scheduleContent").value, tags:document.getElementById("scheduleTags").value, endTime:null};
+                xhttp.open("POST", "http://127.0.0.1:5000/editRecord", true);
+                xhttp.setRequestHeader("Content-type", 'application/json');
+                xhttp.send(JSON.stringify(data));
             }
         </script>
     </body>

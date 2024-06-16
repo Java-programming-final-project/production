@@ -182,3 +182,8 @@ def getSettings():
     resp.headers['Access-Control-Allow-Origin'] = '*'
     #print(settingMap)
     return resp
+
+@app.route("/getSchedule", methods = ["POST"])
+@cross_origin()
+def getSchedule():
+    return dict(DB.getSchedule(request.json["date"]).entrySet())

@@ -53,7 +53,7 @@ public class DiaryManager{
             //this.statement.executeUpdate("create table if not exists TAGLIST (tag TEXT, counter INTEGER)");
             //this.statement.executeUpdate("CREATE TABLE if not exists DIARY (id INTEGER, title TEXT, date DATE, content TEXT, PRIMARY KEY(id ASC))");
             //this.statement.executeUpdate("CREATE TABLE if not exists EVENT (id INTEGER, setTime DATETIME, endTime DATETIME, title TEXT, content TEXT, PRIMARY KEY(id ASC))");
-            //type0: diary type1: event
+            //type0: diary type1: event type2: schedule
             this.statement.executeUpdate("CREATE TABLE if not exists RECORD (id INTEGER, type INTEGER, title TEXT, content TEXT, setDate DATE, endTime DATETIME, PRIMARY KEY(id ASC))");
             this.statement.executeUpdate("CREATE TABLE if not exists TAGS (id INTEGER, tag TEXT)");
             this.statement.executeUpdate("CREATE TABLE if not exists TAGLIST (tag TEXT PRIMARY KEY, counter INTEGER)");
@@ -157,6 +157,57 @@ public class DiaryManager{
         }
         return result;
     }
+    //returns id
+    private int newSchedule(String date){
+        int id = -1;
+        try{
+            ResultSet rs = this.statement.executeQuery("SELECT MAX(id) FROM RECORD");
+            rs.next();
+            id = rs.getInt(1)+1;
+            this.statement.executeUpdate(String.format("INSERT INTO RECORD VALUES(%d, 2, '', '', '%s', null)", id, date));
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+        return id;
+    }
+    public void deleteSchedule(String date){
+        try{
+            this.statement.executeUpdate(String.format("DELETE FROM RECORD WHERE type = 2 AND setDate = %s", date));
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+    public HashMap<String, String> getSchedule(String date){
+        HashMap<String, String> result = new HashMap<String, String>();
+        try{
+            ResultSet rs = this.statement.executeQuery(String.format("SELECT * FROM RECORD WHERE setDate='%s'", date));
+            if (rs.next()){
+                result.put("id", Integer.toString(rs.getInt("id")));
+                result.put("type", Integer.toString(rs.getInt("type")));
+                result.put("title", rs.getString("title"));
+                result.put("content", rs.getString("content"));
+                result.put("setDate", rs.getString("setDate"));
+                result.put("endTime", rs.getString("endTime"));
+            }
+            else{
+                int newID = newSchedule(date);
+                result.put("id", Integer.toString(newID));
+                result.put("type", "2");
+                result.put("title", "");
+                result.put("content", "");
+                result.put("setDate", date);
+                result.put("endTime", null);
+                
+            }
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+        return result;
+    }
+
     //if no input, it's not considered a filter
     //id, type, title(includes), content(includes), setBefore, setAfter, setDate, endBefore, endAfter, endDate, tag(AND logic)
     //use YYYY-MM-DD to input date
@@ -197,16 +248,77 @@ public class DiaryManager{
             String endAfter = conditionSet.getOrDefault("endAfter", "");
             String endDate = conditionSet.getOrDefault("endDate", "");
 
-            if (id != -1) search += String.format(" id = %d", id);
-            if (type != -1) search += String.format(" type = %d", type);
-            if (!title.equals("")) search += " title LIKE '%" + String.format("%s", title.replaceAll("'", "''").replaceAll("%", "~%")) + "%' ESCAPE '~'";
-            if (!content.equals("")) search += " content LIKE '%" + String.format("%s", content.replaceAll("'", "''").replaceAll("%", "~%")) + "%' ESCAPE '~'";
-            if (!setBefore.equals("")) search += String.format(" setDate < '%s'", setBefore);
-            if (!setAfter.equals("")) search += String.format(" setDate > '%s'", setAfter);
-            if (!setDate.equals("")) search += String.format(" setDate = '%s'", setDate);
-            if (!endBefore.equals("")) search += String.format(" endTime < '%s'", endBefore);
-            if (!endAfter.equals("")) search += String.format(" endTime > '%s'", endAfter);
-            if (!endDate.equals("")) search += String.format(" endTime = '%s'", endDate);
+            boolean conditionIsFirst = true;
+            if (id != -1) {
+                if (!conditionIsFirst){
+                    search += " AND";
+                }
+                search += String.format(" id = %d", id);
+                conditionIsFirst = false;
+            }
+            if (type != -1) {
+                if (!conditionIsFirst){
+                    search += " AND";
+                }
+                search += String.format(" type = %d", type);
+                conditionIsFirst = false;
+            };
+            if (!title.equals("")) {
+                if (!conditionIsFirst){
+                    search += " AND";
+                }
+                search += " title LIKE '%" + String.format("%s", title.replaceAll("'", "''").replaceAll("%", "~%")) + "%' ESCAPE '~'";
+                conditionIsFirst = false;
+            };
+            if (!content.equals("")) {
+                if (!conditionIsFirst){
+                    search += " AND";
+                }
+                search += " content LIKE '%" + String.format("%s", content.replaceAll("'", "''").replaceAll("%", "~%")) + "%' ESCAPE '~'";
+                conditionIsFirst = false;
+            }
+            if (!setBefore.equals("")) {
+                if (!conditionIsFirst){
+                    search += " AND";
+                }
+                search += String.format(" setDate < '%s'", setBefore);
+                conditionIsFirst = false;
+            }
+            if (!setAfter.equals("")) {
+                if (!conditionIsFirst){
+                    search += " AND";
+                }
+                search += String.format(" setDate > '%s'", setAfter);
+                conditionIsFirst = false;
+            }
+            if (!setDate.equals("")) {
+                if (!conditionIsFirst){
+                    search += " AND";
+                }
+                search += String.format(" setDate = '%s'", setDate);
+                conditionIsFirst = false;
+            }
+            if (!endBefore.equals("")) {
+                if (!conditionIsFirst){
+                    search += " AND";
+                }
+                search += String.format(" endTime < '%s'", endBefore);
+                conditionIsFirst = false;
+            }
+            if (!endAfter.equals("")) {
+                if (!conditionIsFirst){
+                    search += " AND";
+                }
+                search += String.format(" endTime > '%s'", endAfter);
+                conditionIsFirst = false;
+            }
+            if (!endDate.equals("")) {
+                if (!conditionIsFirst){
+                    search += " AND";
+                }
+                search += String.format(" endTime = '%s'", endDate);
+                conditionIsFirst = false;
+            }
         }
         else{
             search += " FROM RECORD";
@@ -248,7 +360,7 @@ public class DiaryManager{
                 }
             }
 
-            //System.out.println(String.format("search: %s", search));
+            System.out.println(String.format("search: %s", search));
             ResultSet rs = this.statement.executeQuery(search);
             int resultCount = 0;
 
