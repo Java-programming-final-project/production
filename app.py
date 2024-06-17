@@ -24,30 +24,38 @@ app = Flask(__name__, static_folder="./static", template_folder="./template")
 @app.route("/", methods=["GET"])
 def home():
     return render_template("cover.html")
+
 @app.route("/cover", methods=["GET"])
 def cover():
     return render_template("cover.html")
+
 @app.route("/calender", methods=["GET"])
 def calender():
-    return render_template("calender2.html")
+    return render_template("calender.html")
+
 @app.route("/calenderadd", methods=["GET"])
 def calenderadd():
     return render_template("calenderadd.html")
+
 @app.route("/diaryadd", methods=["GET"])
 def diaryadd():
     return render_template("diaryadd.html")
+
 @app.route("/diarypage", methods=["GET"])
 def diarypage():
     return render_template("diarypage.html")
+
 @app.route("/lottery", methods=["GET"])
 def lottery():
     return render_template("lottery.html")
+
 @app.route("/noteadd", methods=["GET"])
 def noteadd():
     return render_template("noteadd.html")
+
 @app.route("/notepage", methods=["GET"])
 def notepage():
-    return render_template("notepage2.html")
+    return render_template("notepage.html")
 
 
 @app.route("/makeDB", methods=["POST"])
@@ -187,6 +195,14 @@ def tags():
     resp.headers['Access-Control-Allow-Origin'] = '*'
     return resp
 
+@app.route("/getTags", methods = ["GET", "POST"])
+@cross_origin()
+def getTags():
+    if request.method == "POST":
+        return list(DB.getTags(int(request.json["id"])))
+    else:
+        return list(DB.getTags(int(request.args.get("id"))))
+
 @app.route("/setSetting", methods = ["POST"])
 @cross_origin()
 def setSetting():
@@ -218,12 +234,12 @@ def startServer():
     waitress.serve(app, port=5000)
 
 if __name__ == "__main__":
-    #app.run()
-    serverThread = threading.Thread(target=startServer)
+    app.run()
+    """serverThread = threading.Thread(target=startServer)
     serverThread.daemon = True
     serverThread.start()
 
     
     webview.create_window('manager', app, width=540, height=960)
-    webview.start()
+    webview.start()"""
     

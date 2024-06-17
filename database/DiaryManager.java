@@ -547,6 +547,20 @@ public class DiaryManager{
         return result;
     }
 
+    public ArrayList<String> getTags(int id){
+        ArrayList<String> result = new ArrayList<String>();
+        try{
+            ResultSet rs = this.statement.executeQuery(String.format("SELECT tag FROM TAGS WHERE id = %d", id));
+            while(rs.next()){
+                result.add(rs.getString("tag"));
+            }
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+        return result;
+    }
+
     public void setSetting(String setting, String value){
         try{
             value = value.replaceAll("'", "''");
