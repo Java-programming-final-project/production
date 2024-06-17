@@ -1,0 +1,66 @@
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
+  <title>Calendar</title>
+  <link rel="stylesheet" href="calendar2.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <script src="calendar2.js" defer></script>
+</head>
+
+<body>
+  <div class="top-bar">
+    <a href="cover.html">
+        <button class="back-button" onclick="window.history.back();">
+            <i class="fas fa-arrow-left"></i> 返回
+        </button>
+    </a>
+</div>
+  <div class="contianer">
+    <div class="calendar">
+      <div class="calendar-header">
+        <span class="month-picker" id="month-picker"> May </span>
+        <div class="year-picker" id="year-picker">
+          <span class="year-change" id="pre-year">
+            <pre><</pre>
+          </span>
+          <span id="year">2020 </span>
+          <span class="year-change" id="next-year">
+            <pre>></pre>
+          </span>
+        </div>
+      </div>
+
+      <div class="calendar-body">
+        <div class="calendar-week-days">
+          <div>Sun</div>
+          <div>Mon</div>
+          <div>Tue</div>
+          <div>Wed</div>
+          <div>Thu</div>
+          <div>Fri</div>
+          <div>Sat</div>
+        </div>
+        <div class="calendar-days">
+            <!-- 以下是生成的日期元素示例 -->
+            <div><a href="calendaradd.html"></a></div>
+            <!-- 其他日期元素 -->
+          </div>
+      </div>
+      <div class="calendar-footer">
+      </div>
+      <div class="date-time-formate">
+        <div class="day-text-formate">TODAY</div>
+        <div class="date-time-value">
+          <div class="time-formate">01:41:20</div>
+          <div class="date-formate">03 - march - 2022</div>
+        </div>
+      </div>
+      <div class="month-list"></div>
+    </div>
+  </div>
+</body>
+
+</html>

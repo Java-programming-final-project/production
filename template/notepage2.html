@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>查看笔记</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="notepage.css">
+</head>
+<body>
+
+<div class="top-bar">
+    <a href="cover.html">
+        <button class="back-button" onclick="window.history.back();">
+            <i class="fas fa-arrow-left"></i> 返回
+        </button>
+    </a>
+</div>
+
+<div class="content">
+    <h1>已保存的筆記</h1>
+    <div id="list"></div>
+</div>
+
+<a href="noteadd.html" onclick="localStorage.removeItem('editIndex')">
+    <button class="floating-button">+</button>
+</a>
+
+<script>
+    document.addEventListener('DOMContentLoaded', async function (){
+        let url=new URL(location.href)
+        let payload=url.searchParams.get("query") | JSON.stringify(data = {condition:{},
+            tags:"",
+            query:["id", "title", "content", "setDate", "endTime"],
+            limit:0,
+            orders:[["setDate", true]]
+        });
+
+        let request=await fetch("http://127.0.0.1:5000/searchRecord",{
+            method:"POST",
+            body:payload,
+            headers:{
+                "Content-type":"application/json"
+            }
+        });
+        let response=await request.json();
+        console.log(response);
+
+    /*const list = document.getElementById('list');
+    let indexWithoutContent = [];//創建一個空陣列，之後儲存除內容以外的資訊
+    function listRecord(){
+        const xhttp = new XMLHttpRequest();
+        xhttp.onload = function() {
+            var output = document.getElementById("output area");
+            console.log(this.responseText);
+            indexWithoutContent = [...responseText];
+            output.innerHTML = this.responseText;
+        }
+        xhttp.open("GET", "http://127.0.0.1:5000/listRecord", true);
+        xhttp.send();
+    }
+
+    function getRecordContent(){
+        const xhttp = new XMLHttpRequest();
+        xhttp.onload = function() {
+            var output = document.getElementById("output area");
+            console.log(this.responseText);
+            output.innerHTML = this.responseText;
+        }
+        var data = {id:document.getElementById("getRecordContentId").value};
+        xhttp.open("POST", "http://127.0.0.1:5000/getRecordContent", true);
+        xhttp.setRequestHeader("Content-type", 'application/json');
+        xhttp.send(JSON.stringify(data));
+    }*/
+
+    // function searchRecord(data){
+    //     const xhttp = new XMLHttpRequest();
+    //     xhttp.onload = function() {
+    //         var output = document.getElementById("output area");
+    //         console.log(this.responseText);
+    //         output.innerHTML = this.responseText;
+    //     }
+    //     qu = []
+    //     document.querySelectorAll("input[name='searchRecord']:checked").forEach(element => {
+    //         qu.push(element.value);
+    //     });
+                
+    //     // var data = {conditions:conditions, tags:document.getElementById("searchRecordTags").value, query:qu, limit:document.getElementById("searchRecordLimit").value, orders:orders};
+    //     xhttp.open("POST", "http://127.0.0.1:5000/searchRecord", true);
+    //     xhttp.setRequestHeader("Content-type", 'application/json');
+    //     xhttp.send(JSON.stringify(data));
+    // }
+    // searchRecord({
+
+    // })
+});
+
+data = {condition:{},
+tags:"",
+query:["id", "title", "content", "setDate", "endTime"],
+limit:0,
+orders:[["setDate", true]]
+}
+
+</script>
+
+</body>
+</html>
+

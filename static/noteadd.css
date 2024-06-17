@@ -1,0 +1,186 @@
+body {
+    overflow-x: hidden;
+    display: flex;
+    flex-direction: row;
+    height: 100vh;
+    margin: 0;
+    font-family: Arial, sans-serif;
+
+}
+.note-section {
+    flex-grow: 2;
+    display: flex;
+    flex-direction: column;
+    padding: 50px 20px 20px 20px;
+}
+#saveEventTitle {
+    width: 100%;
+    padding: 8px;
+    border: none; /* 移除所有边框 */
+    border-bottom: 1px solid #ccc; /* 添加底部边框 */
+    font-size: 30px;
+    color: #080808; /* 设置文字颜色为灰色 */
+    /* 设置文字的透明度 */
+    background-color: transparent; /* 设置背景颜色为透明 */
+}
+
+#saveEventEndTime {
+    width: 100%;
+    padding: 8px;
+    border: none; /* 移除所有边框 */
+    border-bottom: 1px solid #ccc; /* 添加底部边框 */
+    font-size: 16px;
+    color: #080808; /* 设置文字颜色为灰色 */
+ /* 设置文字的透明度 */
+    background-color: transparent; /* 设置背景颜色为透明 */
+}
+
+#saveEventTags {
+    width: 100%;
+    padding: 8px;
+    border: none; /* 移除所有边框 */
+    border-bottom: 1px solid #ccc; /* 添加底部边框 */
+    font-size: 17px;
+    color: #080808; /* 设置文字颜色为灰色 */
+    /* 设置文字的透明度 */
+    background-color: transparent; /* 设置背景颜色为透明 */
+}
+
+#saveEventTitle:focus, #saveEventEndTime:focus, #saveEventTags:focus {
+    outline: none; /* 移除输入框获得焦点时的轮廓效果 */
+}
+
+::placeholder {
+    color: rgba(0, 0, 0, 0.4); /* 淡化显示的颜色，使用 RGBA 表示颜色和透明度 */
+}
+
+textarea {
+    flex-grow: 1;
+    resize: none;
+    margin-bottom: 10px;
+    width: 100%;
+    max-width: 500px;
+    padding: 8px;
+    border: none; /* 移除所有边框 */
+    border-bottom: 1px solid #ccc; /* 添加底部边框 */
+    font-size: 16px;
+ /* 设置文字颜色为灰色 */ /* 设置文字的透明度 */
+    background-color: transparent; /* 设置背景颜色为透明 */
+}
+
+textarea:focus {
+    outline: none; /* 移除输入框获得焦点时的轮廓效果 */
+}
+.button-section {
+    display: flex;
+    flex-direction: column;
+    padding: 50px 20px 20px 20px;
+    position: relative; /* 添加相对定位 */
+}
+.button-section button {
+    margin-bottom: 10px;
+    background-color: blue; /* 藍色背景 */
+    color: white; /* 白色文字 */
+    border: none; /* 沒有邊框 */
+    padding: 10px 20px; /* 內邊距 */
+    border-radius: 5px; /* 圓角 */
+    cursor: pointer; /* 滑鼠指標 */
+}
+.button-section button:hover {
+    background-color: darkblue; /* 滑鼠懸停時的背景顏色 */
+}
+#list {
+    display: none; /* 隱藏記錄 */
+}
+input[type="date"] {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    min-width: 200px;
+    font-size: 16px;
+    color: black;
+}
+/* 其他按钮默认隐藏 */
+.hidden-buttons {
+    display: none;
+    position: absolute;
+    top:10%;
+    left: 0;
+    background-color: rgb(255, 255, 255); /* 背景色设为白色 */
+    border-radius: 5px;
+}
+
+.hidden-buttons button {
+    width: 100%; /* 按钮宽度设为 100% */
+    height: 40px; /* 按钮高度设为 40px */
+    padding: 10px 20px; /* 按钮内边距 */
+    margin: 5px 0; /* 按钮外边距 */
+    border: none;
+    border-radius: 5px;
+    background: #f4c24e;
+    color: white;
+    cursor: pointer;
+}
+
+.hidden-buttons button:hover {
+    background: #f5b92b;
+}
+
+.more-btn,
+.more-btn:hover,
+.more-btn:focus {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    z-index: 1;
+    width: 30px;
+    height: 30px;
+    top: -40px;
+    border-radius: 50%;
+    border: none;
+    background: #eaa926;
+    color: #ffffff;
+    font-size: 2rem;
+    text-decoration: none;
+    z-index: 1001;
+    transition: box-shadow 400ms cubic-bezier(0.2, 0, 0.7, 1), transform 200ms cubic-bezier(0.2, 0, 0.7, 1);
+}
+.more-btn:hover {
+    transform: rotate(45deg);
+    box-shadow: 0 0 1px 5px rgba(138, 59, 88, 0.4), 0 0 1px 10px rgba(138, 59, 88, 0.1);
+}
+
+
+.top-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: #eaa926;
+    padding: 1px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    z-index: 1000;
+}
+
+/* 调整原返回按钮的样式 */
+.back-button {
+    background-color: #eaa926;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+}
+
+.back-button i {
+    margin-right: 8px;
+}

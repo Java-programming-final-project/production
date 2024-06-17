@@ -3,8 +3,9 @@ import jnius_config
 jnius_config.add_classpath("./database;./database/sqlite-jdbc-3.45.3.0.jar;./database/slf4j-api-1.7.36.jar;")
 from jnius import autoclass, JavaClass, MetaJavaClass
 from flask_cors import CORS, cross_origin
-#import webview
+import webview
 import re
+import threading
 
 DiaryManager = autoclass("DiaryManager")
 Pair = autoclass("Pair")
@@ -20,9 +21,34 @@ HashMap = autoclass("java.util.HashMap")
 app = Flask(__name__, static_folder="./static", template_folder="./template")
 #CORS(app)
 
-"""@app.route("/", methods=["GET"])
+@app.route("/", methods=["GET"])
 def home():
-    return render_template("home.html")"""
+    return render_template("cover.html")
+@app.route("/cover", methods=["GET"])
+def cover():
+    return render_template("cover.html")
+@app.route("/calender", methods=["GET"])
+def calender():
+    return render_template("calender2.html")
+@app.route("/calenderadd", methods=["GET"])
+def calenderadd():
+    return render_template("calenderadd.html")
+@app.route("/diaryadd", methods=["GET"])
+def diaryadd():
+    return render_template("diaryadd.html")
+@app.route("/diarypage", methods=["GET"])
+def diarypage():
+    return render_template("diarypage.html")
+@app.route("/lottery", methods=["GET"])
+def lottery():
+    return render_template("lottery.html")
+@app.route("/noteadd", methods=["GET"])
+def noteadd():
+    return render_template("noteadd.html")
+@app.route("/notepage", methods=["GET"])
+def notepage():
+    return render_template("notepage2.html")
+
 
 @app.route("/makeDB", methods=["POST"])
 def makeDB():
@@ -187,9 +213,17 @@ def getSettings():
 def getSchedule():
     return dict(DB.getSchedule(request.json["date"]).entrySet())
 
-#webview.create_window('manager', app)
+def startServer():
+    import waitress
+    waitress.serve(app, port=5000)
 
 if __name__ == "__main__":
-    app.run()
-    #webview.start()
+    #app.run()
+    serverThread = threading.Thread(target=startServer)
+    serverThread.daemon = True
+    serverThread.start()
+
+    
+    webview.create_window('manager', app, width=540, height=960)
+    webview.start()
     

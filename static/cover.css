@@ -1,0 +1,508 @@
+body {
+  overflow-x: hidden; /* 禁止左右横向滚动 */
+  background-color: #effcfd;
+}
+.container {
+    width: 100vw; /* 设置容器宽度为视口宽度 */
+    height: 100vh; /* 设置容器高度为视口高度 */
+    display: grid;
+    grid-template-columns: 25% 25% 25% 25%; /* 4個列，各占24.5%的寬度，留出間隙 */
+    margin: 0 auto;
+    grid-gap: 20px; /* 列之間的間隙 */
+}
+
+.layout {
+    background-color: white;
+    text-align: top-left;
+}
+
+.head {
+    grid-column: 1 / span 4; /* 跨越4列 */
+    position: relative; /* 为了伪元素定位 */
+    background-image: url("images/images5.jpg");
+    background-size: cover;
+    line-height: 200px;
+    height: 600px; /* 设置固定高度 */
+    display: flex; /* 使用 Flexbox 布局 */
+    justify-content: center; /* 在主轴上居中 */
+    align-items: center; /* 在交叉轴上居中 */
+    margin-bottom: 50px;
+    flex-direction: column;
+    color: white;
+}
+
+.head::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    backdrop-filter: blur(3px); /* 毛玻璃效果 */
+    z-index: 1; /* 确保在背景图像之上 */
+}
+
+.head > * {
+    position: relative;
+    z-index: 2; /* 确保内容在伪元素之上 */
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+}
+
+
+.time, .date {
+  font-size: 2em;
+  margin: 0; /* 將 margin 設置為 0 */
+  line-height: 1; /* 設置行高為 1 */
+}
+
+.centered-text {
+    font-size: 80px; /* 设置字体大小 */
+    color: rgb(255, 254, 254); /* 设置字体颜色 */
+    font-weight: bold;
+    font-weight: bold;
+    margin: 0; /* 將 margin 設置為 0 */
+    line-height: 1; /* 設置行高為 1 */
+}
+
+.search {
+    grid-column: 1 / span 4; /* 跨越4列 */
+    background-color: #effcfd;
+    /*height: 85px;
+    position: relative;
+    padding: 0;
+    margin-right: 50px;
+    margin-left: 50px;
+    border-radius: 10%;
+    margin-bottom: 100px;*/
+    * {
+      box-sizing: border-box;
+  }
+  
+  a {
+      text-decoration: none;
+      color: #3d1101;
+  }
+  
+  .wrap {
+      margin-right: 50px;
+      margin-left: 50px;
+  }
+  
+  .search {
+      position: relative;
+      width: 100%;
+      display: flex; /* 使用flexbox使元素水平对齐 */
+      align-items: center; /* 使元素在垂直方向居中 */
+  }
+  
+  .search-dropdown {
+      height: 85px;
+      font-size: 20px;
+      border: 3px solid #3d1101;
+      background-color: #fdfbfa;
+      color: #3d1101;
+      flex: 0 0 30px; /* 固定宽度 */
+  }
+  .search-bar {
+      flex: 1; /* 占据剩余空间 */
+      height: 85px;
+      font-size: 20px;
+      border: 3px solid #3d1101;
+      border-left: none; /* 去掉与下拉菜单之间的边框 */
+      background-color: #fdfbfa;
+  }
+  
+  .search-btn {
+      width: 100px;
+      height: 85px;
+      background-color: #3d1101;
+      color: #efe9e7;
+      outline: none;
+      border: 2px solid #3d1101;
+      cursor: pointer;
+      background-image: url("images/search3.png");
+      background-size: cover;
+      background-position: center;
+      position: absolute;
+      top: 0;
+      right: 0;
+  }
+  
+}
+
+.body1 {
+    grid-column: 1 / span 2; /* 跨越2列 */
+    background-image: url("images/images1.jpg");
+    background-size: cover;
+    line-height: 200px;
+    border-radius: 10%;
+    height: 500px; /* 設置固定高度 */
+    position: relative;
+    margin-left: 50px;
+    padding: 0;
+    box-shadow: 0 4px 8px rgba(24, 23, 23, 0.5);
+    margin-top: 100px;
+    cursor: pointer;
+    border: none
+}
+
+.body2 {
+    grid-column: 3 / span 2; /* 跨越2列 */
+    background-image: url("images/images2.png");
+    background-size: cover;
+    line-height: 200px;
+    border-radius: 10%;
+    height: 500px; /* 設置固定高度 */
+    margin-right: 50px;
+    position: relative;
+    padding: 0;
+    box-shadow: 0 4px 8px rgba(24, 23, 23, 0.5);
+    margin-top: 100px;
+    background-color: aliceblue;
+    cursor: pointer;
+    border: none
+}
+
+.message {
+    grid-column: 1 / span 4; /* 跨越4列 */
+    height: 500px;
+    position: relative;
+    padding: 0;
+    margin-right: 50px;
+    margin-left: 50px;
+    border-radius: 5%;
+    margin-bottom: 300px;
+    box-shadow: 0 4px 8px rgba(24, 23, 23, 0.5);
+    background-color: #e9eaec;
+}
+
+.top-left-text {
+    position: absolute; /* 设置绝对定位 */
+    top: 0; /* 置于父元素顶部 */
+    left: 0; /* 置于父元素左侧 */
+    margin: 10px; /* 如果需要，可以添加一定的边距 */
+    font-size: 40px; /* 设置字体大小 */
+    color: rgb(10, 10, 10); /* 设置字体颜色 */
+    z-index: 2;
+    font-weight: bold;
+}
+
+.foot1{
+    height: 300px;
+    position: relative;
+    padding: 0;
+    background: linear-gradient(to top left, #648ff1, #bdebc3);
+    background-size: cover;
+    line-height: 200px;
+    border-radius: 10%;
+    margin-left: 50px;
+    margin-right: 50px;
+    background-color: antiquewhite;
+    box-shadow: 0 4px 8px rgba(24, 23, 23, 0.5);
+    cursor: pointer;
+    border: none;
+}
+
+.foot1:hover {
+    transform: scale(1.1);
+  }
+  
+  .foot1:active {
+    transform: scale(0.9);
+  }
+
+.foot2{
+    height: 300px;
+    position: relative;
+    padding: 0;
+    background: linear-gradient(to top left, #5886f4, #cef0d0);
+    background-size: cover;
+    line-height: 200px;
+    border-radius: 10%;
+    margin-left: 50px;
+    margin-right: 50px;
+    box-shadow: 0 4px 8px rgba(24, 23, 23, 0.5);
+    cursor: pointer;
+    border: none;
+}
+
+.foot3{
+    height: 300px;
+    position: relative;
+    padding: 0;
+    background: linear-gradient(to top left, #a4e5d6, #7ea9e0);
+    background-size: cover;
+    line-height: 200px;
+    border-radius: 10%;
+    margin-left: 50px;
+    margin-right: 50px;
+    box-shadow: 0 4px 8px rgba(24, 23, 23, 0.5);
+    cursor: pointer;
+    border: none;
+}
+
+.foot4{
+    height: 300px;
+    position: relative;
+    padding: 0;
+    background: linear-gradient(to top left, #89eec1, #5a82f9);
+    background-size: cover;
+    line-height: 200px;
+    border-radius: 10%;
+    margin-left: 50px;
+    margin-right: 50px;
+    box-shadow: 0 4px 8px rgba(24, 23, 23, 0.5);
+    cursor: pointer;
+    border: none;
+}
+
+@media (max-width:600px){
+
+    .head {
+        grid-column: 1 / span 4; /* 跨越4列 */
+        background-image: url("images/images5.jpg");
+        background-size: cover;
+        line-height: 200px;
+        height: 300px; /* 設置固定高度 */
+        display: flex; /* 使用 Flexbox 布局 */
+        justify-content: center; /* 在主轴上居中 */
+        align-items: center; /* 在交叉轴上居中 */
+        margin-bottom: 10px;
+        animation: to-down 1s forwards;
+    }
+    .time, .date {
+        font-size: 1.3em;
+        margin: 0; /* 將 margin 設置為 0 */
+        line-height: 1; /* 設置行高為 1 */
+      }
+    @keyframes to-down {
+        from {
+            transform: translateY(-100%);
+            opacity: 0;
+        }
+        to {
+            transform: translateY(0);
+            opacity: 1;
+        }
+    }
+
+    .centered-text {
+        font-size: 30px; /* 设置字体大小 */
+        color: rgb(252, 250, 250); /* 设置字体颜色 */
+        font-weight: bold;
+    }
+    
+    .search {
+        grid-column: 1 / span 4; /* 跨越4列 */
+        /*height: 35px;
+        position: relative;
+        padding: 0;
+        margin-right: 10px;
+        margin-left: 10px;
+        border-radius: 5%;
+        margin-bottom: 30px;
+        box-shadow: 0 4px 8px rgba(24, 23, 23, 0.5);*/
+
+
+        * {
+            box-sizing: border-box;
+          }
+          body {
+            background-color: #efe9e7;
+          }
+          a {
+            text-decoration: none;
+            color: #3d1101;
+          }
+          .wrap {
+            margin-right: 15px;
+            margin-left: 15px;
+          }
+          .search {
+            position: relative;
+            width: 100%;
+          }
+          .search-bar {
+            width: 100%;
+            height: 35px;
+            font-size: 20px;
+            border: 3px solid #3d1101;
+            animation: fadeIn 1s forwards;
+          }
+          .search-btn {
+            width: 30px;
+            height: 35px;
+            background-color: #3d1101;
+            color: #efe9e7;
+            outline: none;
+            border: 2px solid #3d1101;
+            cursor: pointer;
+            position: absolute;
+            top: 0;
+            right: 0;
+            background-image: url("images/search5.png");
+            animation: fadeIn 1s forwards;
+          }
+          @keyframes fadeIn {
+            from {
+                opacity: 0; /* 初始状态：完全透明 */
+            }
+            to {
+                opacity: 1; /* 结束状态：完全不透明 */
+            }
+        }
+
+          .search-dropdown {
+            height: 35px;
+            font-size: 15px;
+            border: 3px solid #3d1101;
+            color: #3d1101;
+            flex: 0 0 10px; /* 固定宽度 */
+        }
+        
+    }
+    
+    .body1 {
+        grid-column: 1 / span 2; /* 跨越2列 */
+        background-image: url("images/images1.jpg");
+        background-size: cover;
+        line-height: 200px;
+        border-radius: 10%;
+        height: 150px; /* 設置固定高度 */
+        margin-left: 20px;
+        box-shadow: 0 4px 8px rgba(24, 23, 23, 0.5);
+        margin-top: 30px;
+        animation: to-right 1s forwards;
+    }
+    @keyframes to-right {
+        from {
+            transform: translateX(-100%);
+            opacity: 0;
+        }
+        to {
+            transform: translateX(0);
+            opacity: 1;
+        }
+    }
+    
+    .body2 {
+        grid-column: 3 / span 2; /* 跨越2列 */
+        background-image: url("images/images2.png");
+        background-size: cover;
+        line-height: 200px;
+        border-radius: 10%;
+        height: 150px; /* 設置固定高度 */
+        margin-right: 20px;
+        box-shadow: 0 4px 8px rgba(24, 23, 23, 0.5);
+        margin-top: 30px;
+        animation: to-left 1s forwards;
+    }
+    @keyframes to-left {
+        from {
+            transform: translateX(100%);
+            opacity: 0;
+        }
+        to {
+            transform: translateX(0);
+            opacity: 1;
+        }
+    }
+    
+    .message {
+        grid-column: 1 / span 4; /* 跨越4列 */
+        height: 200px;
+        position: relative;
+        padding: 0;
+        margin-right: 18px;
+        margin-left: 18px;
+        border-radius: 5%;
+        margin-bottom: 50px;
+        box-shadow: 0 4px 8px rgba(24, 23, 23, 0.5);
+        animation: fadeIn 1s forwards;
+    }
+
+    .top-left-text {
+        position: absolute; /* 设置绝对定位 */
+        top: 0; /* 置于父元素顶部 */
+        left: 0; /* 置于父元素左侧 */
+        margin: 10px; /* 如果需要，可以添加一定的边距 */
+        font-size: 18px; /* 设置字体大小 */
+        color: rgb(10, 10, 10); /* 设置字体颜色 */
+        z-index: 2;
+        font-weight: bold;
+    }
+
+    .foot1{
+        height: 100px;
+        position: relative;
+        padding: 0;
+        background-size: cover;
+        line-height: 20px;
+        border-radius: 10%;
+        margin-left: 13px;
+        margin-right: 0px;
+        background-color: antiquewhite;
+        box-shadow: 0 4px 8px rgba(24, 23, 23, 0.5);
+        animation: to-up 0.4s forwards;
+    }
+    
+    @keyframes to-up {
+        from {
+            transform: translateY(100%);
+            opacity: 0;
+        }
+        to {
+            transform: translateY(0);
+            opacity: 1;
+        }
+    }
+    .foot1:hover {
+        transform: scale(1.1);
+      }
+      
+      .foot1:active {
+        transform: scale(0.9);
+      }
+    .foot2{
+        height: 100px;
+        position: relative;
+        padding: 0;
+        background-size: cover;
+        line-height: 20px;
+        border-radius: 10%;
+        margin-left: 7px;
+        margin-right: 3px;
+        box-shadow: 0 4px 8px rgba(24, 23, 23, 0.5);
+        animation: to-up 0.6s forwards;
+    }
+    
+    .foot3{
+        height: 100px;
+        position: relative;
+        padding: 0;
+        background-size: cover;
+        line-height: 20px;
+        border-radius: 10%;
+        margin-left: 3px;
+        margin-right: 7px;
+        box-shadow: 0 4px 8px rgba(24, 23, 23, 0.5);
+        animation: to-up 0.8s forwards;
+    }
+    
+    .foot4{
+        height: 100px;
+        position: relative;
+        padding: 0;
+        background-size: cover;
+        line-height: 20px;
+        border-radius: 10%;
+        margin-left: 0px;
+        margin-right: 13px;
+        box-shadow: 0 4px 8px rgba(24, 23, 23, 0.5);
+        animation: to-up 1s forwards;
+    }
+}

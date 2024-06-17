@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>查看笔记</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="diarypage.css">
+    <style>
+        /* 添加必要的样式，确保元素左右并排 */
+        .listItem {
+            background: #f4d793;
+            padding: 10px;
+            margin: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-shadow: 0 4px 8px rgba(24, 23, 23, 0.5);
+            cursor: pointer;
+            transition: box-shadow 0.3s ease;
+            line-height: 1;
+            position: relative;
+            width: calc(50% - 20px); /* 每个元素宽度为50%，考虑到 margin 的间距 */
+            display: inline-block; /* 设置为内联块级元素，实现左右并排 */
+        }
+    </style>
+</head>
+<body>
+
+<div class="top-bar">
+    <a href="cover.html">
+        <button class="back-button" onclick="window.history.back();">
+            <i class="fas fa-arrow-left"></i> 返回
+        </button>
+    </a>
+</div>
+
+<div class="content">
+    <div id="list"></div>
+</div>
+
+<a href="diaryadd.html" onclick="localStorage.removeItem('editIndex')">
+    <button class="floating-button">+</button>
+</a>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const list = document.getElementById('list');
+
+        function render(listContent) {
+            let listHtml = '';
+            listContent.forEach(function (item, index) {
+                // 截取前20个字符
+                const truncatedNote = item.note.length > 20 ? item.note.substring(0, 20) + '...' : item.note;
+
+                listHtml += `
+                    <div class='listItem' data-index="${index}">
+                        <button class="delete-button">Delete</button> <!-- 添加 delete 按钮 -->
+                        <h2>標題: ${item.title}</h2>
+                        <p>日期: ${item.date}</p>
+                        <p>內容: ${truncatedNote}</p> <!-- 仅显示前20个字符 -->
+                        <p>上次編輯於: ${item.time}</p>
+                    </div>
+                `;
+            });
+            list.innerHTML = listHtml;
+
+            // 添加事件监听器
+            document.querySelectorAll('.listItem').forEach(item => {
+                item.addEventListener('click', () => {
+                    const index = item.getAttribute('data-index');
+                    console.log('Edit item at index:', index);
+                    localStorage.setItem('editIndex', index);
+                    window.location.href = 'noteadd.html';
+                });
+            });
+
+            document.querySelectorAll('.delete-button').forEach(button => {
+                button.addEventListener('click', function (event) {
+                    event.stopPropagation(); // 阻止事件冒泡，避免点击 .listItem 时也触发编辑事件
+
+                    const index = button.parentElement.getAttribute('data-index');
+                    deleteNote(index);
+                });
+            });
+        }
+
+        function deleteNote(index) {
+            if (localStorage.listContent) {
+                let listContent = JSON.parse(localStorage.listContent);
+                listContent.splice(index, 1); // 删除对应索引的笔记
+                localStorage.setItem('listContent', JSON.stringify(listContent));
+                render(listContent); // 重新渲染页面
+            }
+        }
+
+        if (localStorage.listContent) {
+            const listContent = JSON.parse(localStorage.listContent);
+            render(listContent);
+        }
+    });
+</script>
+
+</body>
+</html>

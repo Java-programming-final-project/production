@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="static/cover.css">
+    <title>Cover</title>
+</head>
+<body>
+    <div class="container">
+        <div class="layout head">
+            <div class="centered-text abc">歡迎來到Note筆記</div>
+            <div class="date" id="date">Date</div>
+            <div class="time" id="time">Time</div>
+        </div>   
+        <div class="layout search">
+            <div class="wrap">
+              <div class="search">
+                <select class="search-dropdown" id="search-dropdown">
+                  <option value="title">標題</option>
+                  <option value="date">日期</option>
+                  <option value="content">內文</option>
+                  <option value="id">ID</option>
+                </select>
+                <input class="search-bar" type="text" name="search" id="search" placeholder="輸入關鍵詞">
+                <button class="search-btn">
+                  <i class="fas fa-search"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+          <div id="time"></div>
+            <div id="date"></div>
+
+        
+
+        <button class="layout body1" onclick="window.location.href='noteadd';">
+            <div class="top-left-text">+新記事</div>
+        </button>
+        <button class="layout body2" onclick="window.location.href='calendar2';">
+            <div class="top-left-text">+新行程</div>
+        </button>
+        <div class="layout message">
+            <div class="top-left-text">重要訊息</div>
+        </div>
+        <button class="layout foot1" onclick="window.location.href='notepage';">
+            <div class="top-left-text">筆記列表</div>
+        </button>
+        <button class="layout foot2" onclick="window.location.href='diarypage';">
+            <div class="top-left-text">日記</div>    
+        </button>
+        <button class="layout foot3" onclick="window.location.href='lottery';">
+            <div class="top-left-text">運勢</div>    
+        </button>
+        <button class="layout foot4" onclick="window.location.href='calendar2';">
+            <div class="top-left-text">行事曆</div>    
+        </button>
+    </div>
+    <script src="cover.js"></script>
+</body>
+</html>

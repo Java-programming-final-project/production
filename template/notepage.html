@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>查看笔记</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="notepage.css">
+</head>
+<body>
+
+<div class="top-bar">
+    <a href="cover.html">
+        <button class="back-button" onclick="window.history.back();">
+            <i class="fas fa-arrow-left"></i> 返回
+        </button>
+    </a>
+</div>
+
+<div class="content">
+    <h1>已保存的筆記</h1>
+    <div id="list"></div>
+</div>
+
+<a href="noteadd.html" onclick="localStorage.removeItem('editIndex')">
+    <button class="floating-button">+</button>
+</a>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+    const list = document.getElementById('list');
+
+    function render(listContent) {
+        let listHtml = '';
+        listContent.forEach(function (item, index) {
+            // 截取前20个字符
+            const truncatedNote = item.note.length > 20 ? item.note.substring(0, 20) + '...' : item.note;
+
+            listHtml += `
+                <div class='listItem' data-index="${index}">
+                    <button class="delete-button">Delete</button> <!-- 添加 delete 按钮 -->
+                    <h2>標題: ${item.title}</h2>
+                    <p>日期: ${item.date}</p>
+                    <p>內容: ${truncatedNote}</p> <!-- 仅显示前20个字符 -->
+                    <p>上次編輯於: ${item.time}</p>
+                </div>
+            `;
+        });
+        list.innerHTML = listHtml;
+
+        // 添加事件监听器
+        document.querySelectorAll('.listItem').forEach(item => {
+            item.addEventListener('click', () => {
+                const index = item.getAttribute('data-index');
+                console.log('Delete item at index:', index);
+                localStorage.setItem('editIndex', index);
+                window.location.href = 'noteadd.html';
+            });
+        });
+        let delete_button=document.querySelectorAll(".delete-button").forEach((x)=>x.addEventListener('click', function () {
+            deleteNote();
+        }));
+
+        function deleteNote() {
+        if (editIndex !== null) {
+            listContent.splice(editIndex, 1); // 删除对应索引的笔记
+            editIndex = null;
+            localStorage.removeItem('editIndex');
+        } else {
+            listContent.shift(); // 如果没有editIndex，删除第一个笔记
+        }
+        saveToStorage();
+        title.value = '';
+        date.value = '';
+        note.value = '';
+        window.location.href = 'notepage.html'; // 删除后返回笔记列表页面
+    };
+    }
+
+    if (localStorage.listContent) {
+        const listContent = JSON.parse(localStorage.listContent);
+        render(listContent);
+    }
+});
+
+</script>
+
+</body>
+</html>
+

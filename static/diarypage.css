@@ -1,0 +1,93 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+.top-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: #349655;
+    padding: 1px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    z-index: 1000;
+}
+.back-button {
+    background-color: #349655;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+}
+.back-button i {
+    margin-right: 8px;
+}
+.content {
+    margin-top: 50px;
+    padding: 20px;
+}
+.floating-button {
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
+    width: 70px;
+    height: 70px;
+    background-color: #349655;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    font-size: 36px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    transition: background-color 0.3s;
+    z-index: 1000;
+}
+.floating-button:hover {
+    background-color: #0056b3;
+}
+.listItem {
+    background: #f4d793;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-shadow: 0 4px 8px rgba(24, 23, 23, 0.5);
+    border-radius: 3%;
+    cursor: pointer;
+    transition: box-shadow 0.3s ease;
+    line-height: 1;
+    position: relative;
+    animation: to-down 1s forwards;
+}
+
+.delete-button {
+    position: absolute; /* 绝对定位，相对于父元素 .listItem */
+    top: 5px; /* 距离顶部 5px */
+    right: 5px; /* 距离右侧 5px */
+    background: #f4c24e; /* 删除按钮的背景颜色 */
+    color: rgb(3, 3, 3); /* 删除按钮的文字颜色 */
+    border: none; /* 移除按钮边框 */
+    padding: 5px 10px; /* 按钮内边距 */
+    border-radius: 3px; /* 边框圆角 */
+    cursor: pointer; /* 鼠标指针样式为手型 */
+    transition: background-color 0.3s; /* 添加过渡效果 */
+}
+
+.delete-button:hover {
+    background-color: red; /* 悬停时的背景颜色 */
+}
